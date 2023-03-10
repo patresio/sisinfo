@@ -1,12 +1,13 @@
 from django import forms
-from .models import Diretoria
 
-class DiretoriaForm(forms.ModelForm):
+from .models import Setor
+
+
+class SetorForm(forms.ModelForm):
 
     class Meta:
-        model = Diretoria
+        model = Setor
         fields = '__all__'
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -43,10 +43,10 @@ def update_diretoria(request, id):
     elif request.method == 'GET':
         return render(request, 'diretorias.html', {'form': form, 'diretoria': diretoria, 'diretorias': diretorias})
 
-    return redirect(reverse('diretorias'))
+    return redirect('diretorias')
 
 
-# TODO Rename this here and in `update_diretoria`
+
 def extrair_forms_atualizar(form, request):
     diretoria = form.save(commit=False)
     diretoria.nome = form.cleaned_data['nome']
