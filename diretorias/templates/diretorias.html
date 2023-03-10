@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>
+            Diretorias
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Adicionar</button>
+            </form>
+            {% if messages %} {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">{{message}}</div>
+            {% endfor %} {% endif %}
+        </div>
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for diretoria in diretorias %}
+                    <tr class="table align-middle">
+                        <td scope="row">{{diretoria.id}}</td>
+                        <td scope="row">{{diretoria.nome}}</td>
+                        <td scope="row">{{diretoria.tipo}}</td>
+                        <td scope="row">{{diretoria.responsavel}}</td>
+                        <td scope="row">
+                            <a href="{% url 'up_diretoria' diretoria.id %}" class="btn btn-warning"><span>Atualizar</span></a>
+                            <a href="{% url 'del_diretoria' diretoria.id %}" class="btn btn-danger"><span>Remover</span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
