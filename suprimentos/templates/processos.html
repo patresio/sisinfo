@@ -5,7 +5,7 @@
         <span><h1>Processos Licitatórios</h1></span>
     </div>
     <hr>
-    <div class="row"  style="padding-bottom: 2rem;">
+    <div class="row"  style="padding-top: 0.625rem;">
         <div class="col-4">
             <form action="" method="post">
                 {% csrf_token %}
@@ -17,7 +17,7 @@
             {% endfor %} {% endif %}
         </div>
         <div class="col">
-            <table class="table table-dark table-striped">
+            <table class="table table-dark table-striped align-middle">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -31,10 +31,26 @@
                     <tr>
                         <td>{{processo.id}}</td>
                         <td>{{processo.nome}}</td>
-                        <td>{{processo.status}}</td>
+                        {% if processo.status == '1' %}
+                        <td class="table-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Ativo
+                        </td>
+                        {% elif processo.status == '2' %}
+                        <td class="table-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+                            Inativo
+                        </td>
+                        {% endif %}
                         <td>
-                            <a href="" class="btn btn-warning"><span>Atualizar</span></a>
-                            <a href="" class="btn btn-danger"><span>Remover</span></a>
+                            <a href="{% url 'up_processo' processo.id  %}" class="btn btn-primary btn-sm"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                            <a href="{% url 'del_processo' processo.id %}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Remover</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="table-warning">
+                            Nenhum processo cadastrado
                         </td>
                     </tr>
                     {% endfor %}

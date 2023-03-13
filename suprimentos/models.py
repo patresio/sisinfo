@@ -21,3 +21,13 @@ class Material(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class CPUCompleto(models.Model):
+    titulo = models.CharField(max_length=200)
+    proc_licitatorio = models.ForeignKey(ProcessoLicitatorio, on_delete=models.CASCADE, null=True, blank=True)
+    pecas = models.ManyToManyField(Material)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICE, default=1)
+
+    def __str__(self):
+        return self.titulo

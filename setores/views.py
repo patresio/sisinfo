@@ -18,7 +18,6 @@ def setores(request):
         else:
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('setores'))
-
     form = SetorForm()
     context = {
         'form': form,

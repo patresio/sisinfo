@@ -4,7 +4,8 @@
     <div class="row text-gray">
         <span><h1>Diretorias</h1></span>
     </div>
-    <div class="row"  style="padding-bottom: 2rem;">
+    <hr>
+    <div class="row"  style="padding-top: 0.625rem;">
         <div class="col-4">
             <form action="" method="post">
                 {% csrf_token %}
@@ -34,9 +35,11 @@
                         <td scope="row">{{diretoria.tipo}}</td>
                         <td scope="row">{{diretoria.responsavel}}</td>
                         <td scope="row">
-                            <a href="{% url 'up_diretoria' diretoria.id %}" class="btn btn-warning"><span>Atualizar</span></a>
-                            <a href="{% url 'del_diretoria' diretoria.id %}" class="btn btn-danger"><span>Remover</span></a>
+                            <a href="{% url 'up_diretoria' diretoria.id %}" class="btn btn-primary btn-sm"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                            <a href="{% url 'del_diretoria' diretoria.id %}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Remover</a>
                         </td>
+                        {% empty %}
+                        <td colspan="5" class="table-warning">Não há diretorias cadastradas.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
