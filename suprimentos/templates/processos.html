@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row bg-info text-white" style="padding-bottom: 1 rem;">
+        <span><h1>Processos Licitatórios</h1></span>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Adicionar</button>
+            </form>
+            {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}}" role="alert">{{message}}</div>
+            {% endfor %} {% endif %}
+        </div>
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for processo in processos %}
+                    <tr>
+                        <td>{{processo.id}}</td>
+                        <td>{{processo.nome}}</td>
+                        <td>{{processo.status}}</td>
+                        <td>
+                            <a href="" class="btn btn-warning"><span>Atualizar</span></a>
+                            <a href="" class="btn btn-danger"><span>Remover</span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

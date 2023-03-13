@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'dashboard',
     'diretorias',
     'setores',
+    'suprimentos',
 ]
 
 MIDDLEWARE = [
