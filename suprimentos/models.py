@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here
 
-STATUS_CHOICE = (('1', 'Ativo'), ('2', 'Inativo'), ('3', '...'))
+STATUS_CHOICE = (('1', 'Ativo'), ('2', 'Inativo'))
 
 
 class ProcessoLicitatorio(models.Model):

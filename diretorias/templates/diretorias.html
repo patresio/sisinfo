@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <h1>
-            Diretorias
-        </h1>
+    <div class="row text-gray">
+        <span><h1>Diretorias</h1></span>
     </div>
-    <div class="row">
+    <div class="row"  style="padding-bottom: 2rem;">
         <div class="col-4">
             <form action="" method="post">
                 {% csrf_token %}
@@ -14,11 +12,11 @@
                 <button type="submit" class="btn btn-success">Adicionar</button>
             </form>
             {% if messages %} {% for message in messages %}
-            <div class="alert {{message.tags}}" role="alert">{{message}}</div>
+            <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
             {% endfor %} {% endif %}
         </div>
         <div class="col">
-            <table class="table table-striped">
+            <table class="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -30,7 +28,7 @@
                 </thead>
                 <tbody>
                     {% for diretoria in diretorias %}
-                    <tr class="table align-middle">
+                    <tr>
                         <td scope="row">{{diretoria.id}}</td>
                         <td scope="row">{{diretoria.nome}}</td>
                         <td scope="row">{{diretoria.tipo}}</td>

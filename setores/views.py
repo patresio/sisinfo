@@ -42,7 +42,7 @@ def update_setor(request, id):
     elif request.method == 'GET':
         return render(request, 'setores.html', {'form': form, 'setor':setor, 'setores':setores})
     
-    return redirect(setores)
+    return redirect('setores')
 
 
 def extrair_forms_atualizar(form, request):
