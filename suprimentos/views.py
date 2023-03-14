@@ -6,8 +6,8 @@ from django.contrib.messages import constants
 # Create your views here.
 from .models import ProcessoLicitatorio, Material, CPUCompleto
 from .forms import ProcessoLicitatorioForm, MaterialForm, CPUCompletoForm
-# Processos
 
+# Processos
 def processos(request):
     processos = ProcessoLicitatorio.objects.all()
     if request.method == 'POST':
@@ -40,10 +40,25 @@ def update_processo(request, id):
     return redirect('processos_licitatorios')
 
 def extrair_forms_atualizar_processos(form, request):
+    # sourcery skip: remove-redundant-if
     processo = form.save(commit=False)
     processo.nome = form.cleaned_data['nome']
     processo.status = form.cleaned_data['status']
     processo.save()
+
+    # Ajuste para troca de status
+    if processo.status == '2' and processo.status != '1':
+        materiais = Material.objects.filter(proc_licitatorio=processo.id)
+        for material in materiais:
+            material.status = '2'
+            material.save()
+    elif processo.status == '1' and processo.status != '2':
+        materiais = Material.objects.filter(proc_licitatorio=processo.id)
+        for material in materiais:
+            material.status = '1'
+            material.save()
+
+
 
     messages.add_message(request, constants.SUCCESS, 'Atualizado com Sucesso!')
     return redirect(reverse('processos_licitatorios'))
@@ -71,6 +86,7 @@ def suprimentos(request):
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('suprimentos'))
     form = MaterialForm()
+
     context = {
         'form': form,
         'materiais': materiais,
@@ -101,7 +117,7 @@ def extrair_forms_atualizar_material(form, request):
     material.save()
 
     messages.add_message(request, constants.SUCCESS, 'Atualizado com Sucesso!')
-    return redirect(reverse('processos_licitatorios'))
+    return redirect(reverse('suprimentos'))
 
 
 def delete_suprimento(request, id):

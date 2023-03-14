@@ -9,6 +9,11 @@ class ProcessoLicitatorio(models.Model):
     nome = models.CharField(max_length=200, blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default=1)
 
+    class Meta:
+        ordering = ('status',)
+        verbose_name = 'Processo'
+        verbose_name_plural = 'Processos'
+
     def __str__(self):
         return self.nome
 
@@ -16,8 +21,18 @@ class ProcessoLicitatorio(models.Model):
 class Material(models.Model):
     nome = models.CharField(max_length=200, blank=True, null=True)
     proc_licitatorio = models.ForeignKey(
-        ProcessoLicitatorio, on_delete=models.CASCADE, blank=True, null=True)
+        ProcessoLicitatorio, 
+        on_delete=models.CASCADE, 
+        verbose_name='processo',
+        related_name='materiais',
+        blank=True, 
+        null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICE, default=1)
+
+    class Meta:
+        ordering = ('status', 'proc_licitatorio', 'nome',)
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materiais'
 
     def __str__(self):
         return self.nome
