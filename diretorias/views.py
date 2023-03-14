@@ -8,18 +8,17 @@ from .models import Diretoria
 from .forms import DiretoriaForm
 
 
-
 def diretorias(request):
     diretorias = Diretoria.objects.all()
     if request.method == 'POST':
         form = DiretoriaForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.add_message(request, constants.SUCCESS, 'Inserido com sucesso!')
+            messages.add_message(request, constants.SUCCESS,
+                                 'Inserido com sucesso!')
         else:
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('diretorias'))
-    
     form = DiretoriaForm()
     context = {
         'form': form,
@@ -39,12 +38,11 @@ def update_diretoria(request, id):
         if form.is_valid():
             return extrair_forms_atualizar(form, request)
         else:
-            return render(request, 'diretorias.html', {'form': form, 'diretoria':diretoria})
+            return render(request, 'diretorias.html', {'form': form, 'diretoria': diretoria})
     elif request.method == 'GET':
         return render(request, 'diretorias.html', {'form': form, 'diretoria': diretoria, 'diretorias': diretorias})
 
     return redirect('diretorias')
-
 
 
 def extrair_forms_atualizar(form, request):
