@@ -22,7 +22,7 @@ class Material(models.Model):
     nome = models.CharField(max_length=200, blank=True, null=True)
     proc_licitatorio = models.ForeignKey(
         ProcessoLicitatorio, 
-        on_delete=models.CASCADE, 
+        on_delete=models.SET_NULL, 
         verbose_name='processo',
         related_name='materiais',
         blank=True, 

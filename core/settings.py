@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'diretorias',
     'setores',
     'suprimentos',
+    'equipamentos',
 ]
 
 MIDDLEWARE = [
