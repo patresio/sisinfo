@@ -17,10 +17,9 @@
             {% endfor %} {% endif %}
         </div>
         <div class="col">
-            <table class="table table-dark table-striped">
+            <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Responsável</th>
@@ -30,11 +29,10 @@
                 <tbody>
                     {% for diretoria in diretorias %}
                     <tr>
-                        <td scope="row">{{diretoria.id}}</td>
                         <td scope="row">{{diretoria.nome}}</td>
                         <td scope="row">{{diretoria.tipo}}</td>
                         <td scope="row">{{diretoria.responsavel}}</td>
-                        <td scope="row">
+                        <td scope="row" class="col-3">
                             <a href="{% url 'up_diretoria' diretoria.id %}" class="btn btn-primary btn-sm"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
                             <a href="{% url 'del_diretoria' diretoria.id %}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Remover</a>
                         </td>

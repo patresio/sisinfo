@@ -9,6 +9,10 @@ class Setor(models.Model):
     telefone = models.CharField(max_length=9, null=True, blank=True)
     endereco = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['diretoria', 'nome',]
+        verbose_name = 'Setor'
+        verbose_name_plural = 'Setores'
 
     def __str__(self) -> str:
         return self.nome
