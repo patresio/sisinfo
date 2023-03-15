@@ -10,7 +10,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-success">Adicionar</button>
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Adicionar</button>
             </form>
             {% if messages %} {% for message in messages %}
             <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>

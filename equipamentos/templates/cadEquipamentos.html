@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <span><h3>Equipamentos</h3></span>
+    </div>
+    <div class="row">
+        <form action="" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-3">
+                {{form.codigo_sharepoint.label}}
+                {{form.codigo_sharepoint}}
+            </div>
+            <div class="col-md-3">
+                {{form.patrimonio.label}}
+                {{form.patrimonio}}
+            </div>
+            <div class="col-md-3">
+                {{form.status.label}}
+                {{form.status}}
+            </div>
+            <div class="col-md-3">
+                {{form.setor.label}}
+                {{form.setor}}
+            </div>
+            <div class="col-md-6">
+                {{form.responsavel.label}}
+                {{form.responsavel}}
+            </div>
+            <div class="col-md-3">
+                {{form.numero_serie.label}}
+                {{form.numero_serie}}
+            </div>
+            <div class="col-md-3">
+                {{form.tipo.label}}
+                {{form.tipo}}
+            </div>
+            <div class="col-md-6">
+                {{form.serial_windows.label}}
+                {{form.serial_windows}}
+            </div>
+            <div class="col-md-6">
+                {{form.serial_office.label}}
+                {{form.serial_office}}
+            </div>
+            <div class="col-md-3">
+                {{form.ip.label}}
+                {{form.ip}}
+            </div>
+            <div class="col-md-3">
+                {{form.mac_address.label}}
+                {{form.mac_address}}
+            </div>
+            <div class="col-md-5">
+                {{form.album.label}}
+                {{form.album}}
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-primary text-sm form-control" data-bs-toggle="modal" href="#cadastrarImagens" role="button"><i class="bi bi-folder-plus"></i> Imagens</a>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Inserir Equipamento</button>
+            </div>
+        </form>
+        {% if messages %} {% for message in messages %}
+        <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
+    </div>
+    <hr>
+    <div class="row">
+        <p>Inserir imagens primeiro caso tenha imagem</p>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="cadastrarImagens" tabindex="-1" aria-labelledby="cadastrarImagensLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Album</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                <form action="{% url 'add_imagens' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="container">
+                        <p><label for="">Nome do album:</label></p>
+                        <p style="padding-bottom: 0.625rem;"><input type="text" name="nome_album" id="nome_album" class="form-control"></p>
+                        <p><label for="">Selecionar as imagens:</label></p>
+                        <p style="padding-bottom: 0.625rem;"><input class="form-control" type="file" name="imagens" multiple /></p>
+                        <p><input type="submit" class="btn btn-success col-4" value="Enviar" /></p>
+                    </div>
+                    
+                </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle-fill"></i> Fechar</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
