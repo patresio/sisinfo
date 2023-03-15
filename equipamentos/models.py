@@ -4,8 +4,6 @@ from setores.models import Setor
 
 # Create your models here.
 
-from dashboard.models import ImagemAlbum
-
 class Equipamento(models.Model):
     tipo_choices = (
         ('01', 'COMPUTADOR'),
@@ -36,7 +34,6 @@ class Equipamento(models.Model):
     status = models.CharField(
         max_length=1, choices=status_choices, default='1')
     descricao = models.TextField(blank=True, null=True)
-    album = models.OneToOneField(ImagemAlbum, related_name='model', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ['setor', 'indentificador', 'status', 'patrimonio']
@@ -48,3 +45,8 @@ class Equipamento(models.Model):
 
     def __str__(self) -> str:
         return self.indentificador
+    
+
+class Imagem(models.Model):
+    imagem = models.ImageField(upload_to='images')
+    equipamento = models.ForeignKey(Equipamento, on_delete=models.CASCADE)

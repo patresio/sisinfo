@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('image', models.ImageField(upload_to=dashboard.models.get_upload_path)),
+                ('image', models.ImageField(upload_to=dashboard.models)),
                 ('default', models.BooleanField(default=False)),
                 ('width', models.FloatField(default=300)),
                 ('length', models.FloatField(default=300)),
