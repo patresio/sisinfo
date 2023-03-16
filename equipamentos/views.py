@@ -44,9 +44,48 @@ def addEquipamentos(request):
         descricao = request.POST.get('descricao')
         imagens = request.FILES.getlist('imagens')
         
-        
+        equipamento = Equipamento(
+            codigo_sharepoint = codigo_sharepoint,
+            setor = Setor(id=setor),
+            configuracao = configuracao,
+            serial_windows = serial_windows,
+            serial_office = serial_office,
+            ip = ip,
+            mac_address = mac_address,
+            patrimonio = patrimonio,
+            numero_serie = numero_serie,
+            tipo = tipo,
+            responsavel = responsavel,
+            status = status,
+            descricao = descricao,
+        )
 
+        equipamento.save()
 
+        for fimg in imagens:
+            name = f'{equipamento.id}-{equipamento.indentificador}.jpg'
+            # Tratamento da imagem
+            img = Image.open(fimg)
+            img = img.convert('RGB')
+            img = img.resize((800, 600))
+            draw = ImageDraw.Draw(img)
+            draw.text((20, 580), "PREFEITURA MUNICIPAL DE NOVO HORIZONTE", (255, 255, 255))
+            output = BytesIO()
+            img.save(output, format="JPEG", quality=100)
+            output.seek(0)
+            img_render = InMemoryUploadedFile(
+                output,
+                'ImageField',
+                name,
+                'image/jpeg',
+                sys.getsizeof(output),
+                None
+            )
+            
+            print(img_render)
+
+            img_final = Imagem(imagem=img_render, equipamento=equipamento)
+            img_final.save()
 
         messages.add_message(request, messages.SUCCESS, 'Equipamento Inserido com Sucesso!')
         return redirect(reverse('add_equipamento'))

@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <h1>Equipamentos</h1>
-    <a class="btn btn-success" href="{% url 'add_equipamento' %}">Adicionar equipamento</a>
+    <div class="row">
+        <div class="col">
+            <h1>Equipamentos</h1>
+        </div>
+        <div class="col-3">
+            <a class="btn btn-success" href="{% url 'add_equipamento' %}"><i class="bi bi-plus-square-fill"></i> Adicionar Equipamento</a>
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
 </div>
 {% endblock content %}

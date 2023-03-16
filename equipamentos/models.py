@@ -20,8 +20,7 @@ class Equipamento(models.Model):
     indentificador = models.CharField(
         max_length=24, null=True, blank=True)
     codigo_sharepoint = models.CharField(max_length=10, null=True, blank=True)
-    setor = models.ForeignKey(
-        Setor, on_delete=models.SET_NULL, blank=True, null=True)
+    setor = models.ForeignKey(Setor, on_delete=models.SET_NULL, blank=True, null=True)
     configuracao = models.TextField(blank=True, null=True)
     serial_windows = models.CharField(max_length=25, blank=True, null=True)
     serial_office = models.CharField(max_length=25, blank=True, null=True)

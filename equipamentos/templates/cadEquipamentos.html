@@ -2,11 +2,13 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <span><h3>Cadastro de Equipamento</h3></span>
+        <div class="col">
+            <span><h3>Cadastro de Equipamento</h3></span>
+        </div>
+        <div class="col-2 d-flex flex-row-reverse">
+            <a href="{% url 'equipamentos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+        </div>
     </div>
-    {% if messages %} {% for message in messages %}
-        <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
-    {% endfor %} {% endif %}
     <div class="row">
         <form action="{% url 'add_equipamento' %}" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
             <div class="col-md-3">
@@ -19,7 +21,7 @@
             </div>
             <div class="col-md-3">
                 <label for="">Status</label>
-                <select name="nicho" id="nicho" class="form-control">
+                <select name="status" id="status" class="form-control">
                     <option value=""></option>
                     {% for status_id, status_name in status %}
                         <option value="{{status_id}}">{{status_name}}</option>
@@ -82,12 +84,13 @@
                 
             </div>
             <div class="col-12">
-                <div class="col-md-4 input-group">
-                    <span class="input-group-addon btn btn-success"><i class="bi bi-plus-square-fill"></i></span>
-                    <input type="submit" class="btn btn-success col-3" value="Inserir Equipamento" />
-                </div>
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Inserir Equipamento</button>
+                {% if messages %} {% for message in messages %}
+                    <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+                {% endfor %} {% endif %}
             </div>
         </form>
     </div>
+    
 </div>
 {% endblock content %}
