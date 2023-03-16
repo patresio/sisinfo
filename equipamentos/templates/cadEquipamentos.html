@@ -2,65 +2,92 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <span><h3>Equipamentos</h3></span>
+        <span><h3>Cadastro de Equipamento</h3></span>
     </div>
+    {% if messages %} {% for message in messages %}
+        <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+    {% endfor %} {% endif %}
     <div class="row">
-        <form action="" class="row g-3">
-            {% csrf_token %}
+        <form action="{% url 'add_equipamento' %}" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
             <div class="col-md-3">
-                {{form.codigo_sharepoint.label}}
-                {{form.codigo_sharepoint}}
+                <label for="">Codigo do Sharepoint</label>
+                <input type="text" name="codigo_sharepoint" id="codigo_sharepoint" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.patrimonio.label}}
-                {{form.patrimonio}}
+                <label for="">Patrimônio</label>
+                <input type="text" name="patrimonio" id="patrimonio" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.status.label}}
-                {{form.status}}
+                <label for="">Status</label>
+                <select name="nicho" id="nicho" class="form-control">
+                    <option value=""></option>
+                    {% for status_id, status_name in status %}
+                        <option value="{{status_id}}">{{status_name}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-md-3">
-                {{form.setor.label}}
-                {{form.setor}}
+                <label for="">Setor</label>
+                <select name="setor" id="setor" class="form-control">
+                    <option value=""></option>
+                    {% for setor in setores %}
+                    <option value="{{setor.id}}">{{setor.nome}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-md-6">
-                {{form.responsavel.label}}
-                {{form.responsavel}}
+                <label for="">Responsável</label>
+                <input type="text" name="responsavel" id="responsavel" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.numero_serie.label}}
-                {{form.numero_serie}}
+                <label for="">Numero de Série</label>
+                <input type="text" name="numero_serie" id="numero_serie" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.tipo.label}}
-                {{form.tipo}}
+                <label for="">Tipo de Equipamento</label>
+                <select name="tipo" id="tipo" class="form-control">
+                    <option value=""></option>
+                    {% for tipo_id, tipo_nome in tipo %}
+                    <option value="{{tipo_id}}">{{tipo_nome}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-md-6">
-                {{form.serial_windows.label}}
-                {{form.serial_windows}}
+                <label for="">Serial do Microsoft Windows</label>
+                <input type="text" name="serial_windows" id="serial_windows" class="form-control">
             </div>
             <div class="col-md-6">
-                {{form.serial_office.label}}
-                {{form.serial_office}}
+                <label for="">Serial do Microsoft Office</label>
+                <input type="text" name="serial_office" id="serial_office" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.ip.label}}
-                {{form.ip}}
+                <label for="">IP da Rede</label>
+                <input type="text" name="ip" id="ip" class="form-control">
             </div>
             <div class="col-md-3">
-                {{form.mac_address.label}}
-                {{form.mac_address}}
+                <label for="">Numeração MAC ADDRESS</label>
+                <input type="text" name="mac_address" id="mac_address" class="form-control">
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <label for="">Imagens</label>
+                <input class="form-control" type="file" name="imagens" multiple />
+            </div>
+            <div class="col-md-6">
+                <label for="">Configuração do Equipamento</label>
+                <textarea name="configuracao" id="configuracao" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="">Descrição</label>
+                <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control"></textarea>
+                
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Inserir Equipamento</button>
+                <div class="col-md-4 input-group">
+                    <span class="input-group-addon btn btn-success"><i class="bi bi-plus-square-fill"></i></span>
+                    <input type="submit" class="btn btn-success col-3" value="Inserir Equipamento" />
+                </div>
             </div>
         </form>
-        {% if messages %} {% for message in messages %}
-        <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
-        {% endfor %} {% endif %}
     </div>
 </div>
 {% endblock content %}
