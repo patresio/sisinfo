@@ -1,0 +1,12 @@
+.gallery{
+    padding: 2rem 0;
+}
+
+.gallery img{
+    max-width:100%;
+    cursor: pointer;
+}
+
+#gallery-modal .modal-img{
+    width: 100%;
+}

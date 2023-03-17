@@ -3,14 +3,42 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Equipamentos</h1>
+            <span><h1>Equipamentos</h1></span>
         </div>
-        <div class="col-3">
+        <div class="col-3 d-flex flex-row-reverse">
             <a class="btn btn-success" href="{% url 'add_equipamento' %}"><i class="bi bi-plus-square-fill"></i> Adicionar Equipamento</a>
         </div>
     </div>
+    <hr>
     <div class="row">
-        
+        <table class="table table-striped" id="table_equipamentos" name="table_equipamentos">
+            <thead>
+                <th>Sharepoint</th>
+                <th>Patrimonio</th>
+                <th>Identificador</th>
+                <th>Setor</th>
+                <th>Tipo</th>
+                <th>Mac Address</th>
+                <th>Serial Windows</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for equipamento in equipamentos %}
+                <td>{{equipamento.codigo_sharepoint}}</td>
+                <td>{{equipamento.patrimonio}}</td>
+                <td>{{equipamento.indentificador}}</td>
+                <td>{{equipamento.setor.nome}}</td>
+                <td>{{equipamento.get_tipo_display}}</td>
+                <td>{{equipamento.mac_address}}</td>
+                <td>{{equipamento.serial_windows}}</td>
+                <td>
+                    <a href="{% url 'view_equipamento' equipamento.id %}" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                    <a href="" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                    <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
+                </td>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock content %}
