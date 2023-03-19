@@ -1,19 +1,101 @@
 {% extends 'base.html' %}{% load static %}
 {% block content %}
 <div class="container">
+    <div class="row" style="padding-top: 1.5rem;">
+        <div class="col">
+            <span><h3>Equipamento de identificação: {{equipamento.indentificador}}</h3></span>
+        </div>
+        <div class="col-2 d-flex flex-row-reverse">
+            <a href="{% url 'equipamentos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+        </div>
+    </div>
     <div class="row">
+      {% if messages %} {% for message in messages %}
+          <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+      {% endfor %} {% endif %}
+    </div>
+    <div class="row" style="padding-top: 1.5rem;">
         <table class="table table-striped">
-            
+            <tr>
+              <th>Identificador:</th>
+              <td>{{equipamento.indentificador}}</td>
+            </tr>
+            <tr>
+              <th>Patrimônio:</th>
+              <td>{{equipamento.patrimonio}}</td>
+            </tr>
+            <tr>
+              <th>Código do Sharepoint:</th>
+              <td>{{equipamento.codigo_sharepoint}}</td>
+            </tr>
+            <tr>
+              <th>Tipo Equipamento:</th>
+              <td>{{equipamento.get_tipo_display}}</td>
+            </tr>
+            <tr>
+              <th>Status:</th>
+              <td>{{equipamento.get_status_display}}</td>
+            </tr>
+            <tr>
+              <th>Configuração:</th>
+              <td>{{equipamento.configuracao}}</td>
+            </tr>
+            <tr>
+              <th>Numero de Série:</th>
+              <td>{{equipamento.numero_serie}}</td>
+            </tr>
+            <tr>
+              <th>Serial do Microsoft Windows:</th>
+              <td>{{equipamento.serial_windows}}</td>
+            </tr>
+            <tr>
+              <th>Serial do Microsoft Office:</th>
+              <td>{{equipamento.serial_office}}</td>
+            </tr>
+            <tr>
+              <th>Endereço IP:</th>
+              <td>{{equipamento.ip}}</td>
+            </tr>
+            <tr>
+              <th>Endereço MAC ADDRESS:</th>
+              <td>{{equipamento.mac_address}}</td>
+            </tr>
+            <tr>
+              <th>Descrição:</th>
+              <td>{{equipamento.descricao}}</td>
+            </tr>
+            <tr>
+              <th>Responsável:</th>
+              <td>{{equipamento.responsavel}}</td>
+            </tr>
+            <tr>
+              <th>Setor:</th>
+              <td>{{equipamento.setor.nome}}</td>
+            </tr>
         </table>
     </div>
     <div class="row">
-        
+      <form action="" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="col-md-11">
+          <label for=""><h3>Inserir novas imagens:</h3></label>
+          <input class="form-control" type="file" name="imagens" multiple />
+        </div>
+        <div class="col-md-1">
+          <label for=""><h3></h3></label>
+          <button type="submit" class="btn btn-success form-control"><i class="bi bi-folder-plus"></i> Inserir Imagens</button>
+        </div>
+      </form>
+    </div>
+    <div class="row">
         <section class="gallery min-vh-100">
             <div class="container-lg">
                 <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3">
                     {% for imagem in imagens %}
                     <div class="col">
                         <img src="/media/{{imagem.imagem}}" alt="gallery" class="gallery-item">
+                        <div class="d-flex justify-content-center" style="padding-top: 0.625rem;" >
+                          <a href="{% url 'del_imagem' imagem.id equipamento.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
+                        </div>
                     </div>
                     {% empty %}
                         <h1>Não há imagens</h1>
@@ -22,14 +104,12 @@
             </div>
         </section>
     </div>
-
-      
+</div>
       <!-- Modal -->
       <div class="modal fade" id="gallery-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              {% comment %} <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1> {% endcomment %}
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -38,9 +118,5 @@
           </div>
         </div>
       </div>
-
-</div>
-
-<!-- Button trigger modal -->
 
 {% endblock content %}

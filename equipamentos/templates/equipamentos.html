@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
+    <div class="row" style="padding-top: 1.5rem;">
+        <div class="col"> 
             <span><h1>Equipamentos</h1></span>
         </div>
         <div class="col-3 d-flex flex-row-reverse">
             <a class="btn btn-success" href="{% url 'add_equipamento' %}"><i class="bi bi-plus-square-fill"></i> Adicionar Equipamento</a>
         </div>
+    </div>
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
     </div>
     <hr>
     <div class="row">
@@ -24,18 +29,20 @@
             </thead>
             <tbody>
                 {% for equipamento in equipamentos %}
-                <td>{{equipamento.codigo_sharepoint}}</td>
-                <td>{{equipamento.patrimonio}}</td>
-                <td>{{equipamento.indentificador}}</td>
-                <td>{{equipamento.setor.nome}}</td>
-                <td>{{equipamento.get_tipo_display}}</td>
-                <td>{{equipamento.mac_address}}</td>
-                <td>{{equipamento.serial_windows}}</td>
-                <td>
-                    <a href="{% url 'view_equipamento' equipamento.id %}" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
-                    <a href="" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
-                    <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
-                </td>
+                <tr>
+                    <td>{{equipamento.codigo_sharepoint}}</td>
+                    <td>{{equipamento.patrimonio}}</td>
+                    <td>{{equipamento.indentificador}}</td>
+                    <td>{{equipamento.setor.nome}}</td>
+                    <td>{{equipamento.get_tipo_display}}</td>
+                    <td>{{equipamento.mac_address}}</td>
+                    <td>{{equipamento.serial_windows}}</td>
+                    <td>
+                        <a href="{% url 'view_equipamento' equipamento.id %}" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                        <a href="" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                        <a href="{% url 'del_equipamento' equipamento.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

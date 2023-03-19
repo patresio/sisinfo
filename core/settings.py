@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #myapps
+    # otherapps
+    'django_seed',
+    # myapps
     'dashboard',
     'diretorias',
     'setores',

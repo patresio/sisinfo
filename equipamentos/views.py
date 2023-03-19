@@ -49,7 +49,15 @@ def addEquipamentos(request):
         return extrair_forms_equipamento(request)
 
 
-# TODO Rename this here and in `addEquipamentos`
+def delEquipamento(request, id):
+    equipamento = Equipamento.objects.get(id=id)
+    equipamento.delete()
+    messages.add_message(request, constants.ERROR,
+                         'Equipamento deletado com sucesso!')
+    return redirect(reverse('equipamentos'))
+
+# Extrair Forms do Equipamento
+
 def extrair_forms_equipamento(request):
     codigo_sharepoint = request.POST.get('codigo_sharepoint')
     setor = request.POST.get('setor')
@@ -84,6 +92,16 @@ def extrair_forms_equipamento(request):
 
     equipamento.save()
 
+    convert_imagem(imagens, equipamento.id)
+
+    messages.add_message(request, messages.SUCCESS,
+                         'Equipamento Inserido com Sucesso!')
+    return redirect(reverse('add_equipamento'))
+
+# Converter Imagens
+
+def convert_imagem(imagens, fk):
+    equipamento = Equipamento.objects.get(id=fk)
     for fimg in imagens:
         name = f'{equipamento.id}-{equipamento.indentificador}.jpg'
         # Tratamento da imagem
@@ -110,6 +128,10 @@ def extrair_forms_equipamento(request):
         img_final = Imagem(imagem=img_render, equipamento=equipamento)
         img_final.save()
 
-    messages.add_message(request, messages.SUCCESS,
-                         'Equipamento Inserido com Sucesso!')
-    return redirect(reverse('add_equipamento'))
+
+def delImagem(request, id, fk):
+    imagem = Imagem.objects.get(id=id)
+    imagem.delete()
+    messages.add_message(request, messages.ERROR,
+                         'Imagem excluida com sucesso!')
+    return redirect(reverse('view_equipamento', args=(fk)))
