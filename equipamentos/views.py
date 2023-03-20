@@ -9,7 +9,6 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 
-
 # Create your views here.
 
 from .models import Equipamento, Imagem
@@ -51,14 +50,18 @@ def addEquipamentos(request):
 
 def delEquipamento(request, id):
     equipamento = Equipamento.objects.get(id=id)
+    imagens = Imagem.objects.filter(equipamento=id)
+    # Remove as imagens primeiro
+    for imagem in imagens:
+        imagem.delete()
+    # Deleta o equipamento
     equipamento.delete()
+    
     messages.add_message(request, constants.ERROR,
                          'Equipamento deletado com sucesso!')
     return redirect(reverse('equipamentos'))
 
 # Extrair Forms do Equipamento
-
-
 def extrair_forms_equipamento(request):
     codigo_sharepoint = request.POST.get('codigo_sharepoint')
     setor = request.POST.get('setor')
@@ -92,16 +95,17 @@ def extrair_forms_equipamento(request):
     )
 
     equipamento.save()
-
-    convert_imagem(imagens, equipamento.id)
+    
+    if imagens is not None:
+        convert_imagem(imagens, equipamento.id)
 
     messages.add_message(request, messages.SUCCESS,
                          'Equipamento Inserido com Sucesso!')
     return redirect(reverse('add_equipamento'))
 
+
+
 # Converter Imagens
-
-
 def convert_imagem(imagens, fk):
     equipamento = Equipamento.objects.get(id=fk)
     for fimg in imagens:
@@ -125,19 +129,19 @@ def convert_imagem(imagens, fk):
             None
         )
 
-        print(img_render)
-
         img_final = Imagem(imagem=img_render, equipamento=equipamento)
         img_final.save()
 
-
+# ----------------------------------------------------------------
+#                         IMAGEMS                                #
+# ----------------------------------------------------------------
 def insImagens(request, fk):
     if request.method == 'POST':
         imagens = request.FILES.getlist('imagens')
         convert_imagem(imagens, fk)
         messages.add_message(request, messages.SUCCESS,
                              'Imagens Inseridas com Sucesso!')
-        return redirect(reverse('view_equipamento', args=(fk)))
+        return redirect(reverse('view_equipamento', kwargs={'id': fk}))
 
 
 def delImagem(request, id, fk):
@@ -145,7 +149,7 @@ def delImagem(request, id, fk):
     imagem.delete()
     messages.add_message(request, messages.ERROR,
                          'Imagem excluida com sucesso!')
-    return redirect(reverse('view_equipamento', args=(fk)))
+    return redirect(reverse('view_equipamento', kwargs={'id': fk}))
 
 
 def upEquipamento(request, id):

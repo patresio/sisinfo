@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="row" style="padding-top: 1.5rem;">
+    <div class="row" style="padding-bottom: 0.625rem;">
         <div class="col"> 
             <span><h1>Equipamentos</h1></span>
         </div>
@@ -11,13 +11,12 @@
     </div>
     <div class="row">
         {% if messages %} {% for message in messages %}
-            <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+            <div class="alert {{message.tags}} d-flex align-items-center" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
         {% endfor %} {% endif %}
     </div>
-    <hr>
-    <div class="row">
-        <table class="table table-striped" id="table_equipamentos" name="table_equipamentos">
-            <thead>
+    <div class="row" style="padding-top: 0.625rem;">
+        <table class="table table-striped table-bordered" id="tbEquipamentos">
+            <thead class="table-dark">
                 <th>Sharepoint</th>
                 <th>Patrimonio</th>
                 <th>Identificador</th>
@@ -37,9 +36,9 @@
                     <td>{{equipamento.get_tipo_display}}</td>
                     <td>{{equipamento.mac_address}}</td>
                     <td>{{equipamento.serial_windows}}</td>
-                    <td>
+                    <td style="text-align: center;">
                         <a href="{% url 'view_equipamento' equipamento.id %}" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
-                    <a href="{% url 'up_equipamento' equipamento.id %}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                        <a href="{% url 'up_equipamento' equipamento.id %}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
                         <a href="{% url 'del_equipamento' equipamento.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
                     </td>
                 </tr>
@@ -49,3 +48,17 @@
     </div>
 </div>
 {% endblock content %}
+{% block script %}
+<script>
+    $("#tbEquipamentos").DataTable({
+        // Datatables Configuration
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        autoWidth: false,
+        searching: true,
+        bInfo: true,
+        bSort: true,
+    })
+</script>
+{% endblock script %}

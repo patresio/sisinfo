@@ -2,7 +2,11 @@ from django.db import models
 from secrets import token_urlsafe
 from setores.models import Setor
 
+import os
+from django.conf import settings
+
 # Create your models here.
+
 
 class Equipamento(models.Model):
     tipo_choices = (
@@ -20,7 +24,8 @@ class Equipamento(models.Model):
     indentificador = models.CharField(
         max_length=24, null=True, blank=True)
     codigo_sharepoint = models.CharField(max_length=10, null=True, blank=True)
-    setor = models.ForeignKey(Setor, on_delete=models.SET_NULL, blank=True, null=True)
+    setor = models.ForeignKey(
+        Setor, on_delete=models.SET_NULL, blank=True, null=True)
     configuracao = models.TextField(blank=True, null=True)
     serial_windows = models.CharField(max_length=25, blank=True, null=True)
     serial_office = models.CharField(max_length=25, blank=True, null=True)
@@ -35,7 +40,7 @@ class Equipamento(models.Model):
     descricao = models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ['setor', 'indentificador', 'status', 'patrimonio']
+        ordering = ['id', 'setor', 'indentificador', 'status', 'patrimonio']
 
     def save(self, *args, **kwargs):
         if not self.indentificador:
@@ -44,8 +49,16 @@ class Equipamento(models.Model):
 
     def __str__(self) -> str:
         return self.indentificador
-    
+
 
 class Imagem(models.Model):
     imagem = models.ImageField(upload_to='images')
-    equipamento = models.ForeignKey(Equipamento, on_delete=models.CASCADE)
+    equipamento = models.ForeignKey(
+        Equipamento, on_delete=models.CASCADE, null=True, blank=True)
+
+    def delete(self, *args, **kwargs):
+        nome_imagem = str(self.imagem)
+        imagem_name = f'{settings.MEDIA_ROOT}/{nome_imagem}'
+        if os.path.exists(imagem_name):
+            os.remove(imagem_name)
+        super(Imagem, self).delete(*args, **kwargs)

@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="row" style="padding-top: 1.5rem;">
+    <div class="row" style="padding-bottom: 0.625rem;">
         <div class="col">
             <span><h3>Cadastro de Equipamento</h3></span>
         </div>
         <div class="col-2 d-flex flex-row-reverse">
             <a href="{% url 'equipamentos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
         </div>
+    </div>
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
     </div>
     <div class="row">
         <form action="{% url 'add_equipamento' %}" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
@@ -85,9 +90,6 @@
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Inserir Equipamento</button>
-                {% if messages %} {% for message in messages %}
-                    <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
-                {% endfor %} {% endif %}
             </div>
         </form>
     </div>

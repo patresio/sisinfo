@@ -1,3 +1,35 @@
+/* --------------------
+# START CONFIGURATION #
+---------------------*/
+html, body {
+    height: 100%;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* ---------------------
+# CONFIGURATION FOOTER #
+----------------------*/
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -3.125rem;
+    padding-bottom: 0.625rem;
+}
+
+#footer {
+    margin: 0 auto;
+    height: 100%;
+}
+
+#footer,
+.push {
+    height: 3.125rem;
+}
+
+/* ----------------------
+# CONFIGURATION IMAGENS #
+-----------------------*/
 .gallery{
     padding: 2rem 0;
 }
