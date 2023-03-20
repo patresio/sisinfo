@@ -58,6 +58,7 @@ def delEquipamento(request, id):
 
 # Extrair Forms do Equipamento
 
+
 def extrair_forms_equipamento(request):
     codigo_sharepoint = request.POST.get('codigo_sharepoint')
     setor = request.POST.get('setor')
@@ -100,6 +101,7 @@ def extrair_forms_equipamento(request):
 
 # Converter Imagens
 
+
 def convert_imagem(imagens, fk):
     equipamento = Equipamento.objects.get(id=fk)
     for fimg in imagens:
@@ -129,9 +131,26 @@ def convert_imagem(imagens, fk):
         img_final.save()
 
 
+def insImagens(request, fk):
+    if request.method == 'POST':
+        imagens = request.FILES.getlist('imagens')
+        convert_imagem(imagens, fk)
+        messages.add_message(request, messages.SUCCESS,
+                             'Imagens Inseridas com Sucesso!')
+        return redirect(reverse('view_equipamento', args=(fk)))
+
+
 def delImagem(request, id, fk):
     imagem = Imagem.objects.get(id=id)
     imagem.delete()
     messages.add_message(request, messages.ERROR,
                          'Imagem excluida com sucesso!')
     return redirect(reverse('view_equipamento', args=(fk)))
+
+
+def upEquipamento(request, id):
+    equipamento = Equipamento.objects.get(id=id)
+    context = {
+        'equipamento': equipamento,
+    }
+    return render(request, 'update_equipamento.html', context)

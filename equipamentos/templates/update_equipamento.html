@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row" style="padding-top: 1.5rem;">
+        <div class="col">
+            <span><h3>Atualização do Equipamento: {{equipamento.indentificador}}</h3></span>
+        </div>
+        <div class="col-2 d-flex flex-row-reverse">
+            <a href="{% url 'equipamentos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+        </div>
+    </div>
+    <div class="row">
+        <form action="" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="col-md-3">
+                <label for="">Codigo do Sharepoint</label>
+                <input type="text" name="codigo_sharepoint" id="codigo_sharepoint" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Patrimônio</label>
+                <input type="text" name="patrimonio" id="patrimonio" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value=""></option>
+                    {% for status_id, status_name in status %}
+                        <option value="{{status_id}}">{{status_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="">Setor</label>
+                <select name="setor" id="setor" class="form-control">
+                    <option value=""></option>
+                    {% for setor in setores %}
+                    <option value="{{setor.id}}">{{setor.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="">Responsável</label>
+                <input type="text" name="responsavel" id="responsavel" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Numero de Série</label>
+                <input type="text" name="numero_serie" id="numero_serie" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Tipo de Equipamento</label>
+                <select name="tipo" id="tipo" class="form-control">
+                    <option value=""></option>
+                    {% for tipo_id, tipo_nome in tipo %}
+                    <option value="{{tipo_id}}">{{tipo_nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="">Serial do Microsoft Windows</label>
+                <input type="text" name="serial_windows" id="serial_windows" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label for="">Serial do Microsoft Office</label>
+                <input type="text" name="serial_office" id="serial_office" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">IP da Rede</label>
+                <input type="text" name="ip" id="ip" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="">Numeração MAC ADDRESS</label>
+                <input type="text" name="mac_address" id="mac_address" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label for="">Imagens</label>
+                <input class="form-control" type="file" name="imagens" multiple />
+            </div>
+            <div class="col-md-6">
+                <label for="">Configuração do Equipamento</label>
+                <textarea name="configuracao" id="configuracao" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="">Descrição</label>
+                <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control"></textarea>
+                
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Inserir Equipamento</button>
+                {% if messages %} {% for message in messages %}
+                    <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+                {% endfor %} {% endif %}
+            </div>
+        </form>
+    </div>
+    
+</div>
+{% endblock content %}

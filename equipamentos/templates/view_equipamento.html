@@ -11,7 +11,7 @@
     </div>
     <div class="row">
       {% if messages %} {% for message in messages %}
-          <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+          <div class="alert {{message.tags}} d-flex align-items-center" role="alert" style="padding-top:0.625rem;">{{message}}</div>
       {% endfor %} {% endif %}
     </div>
     <div class="row" style="padding-top: 1.5rem;">
@@ -75,10 +75,10 @@
         </table>
     </div>
     <div class="row">
-      <form action="" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
+      <form action="{% url 'ins_imagens' equipamento.id %}" method="POST" class="row g-3" enctype="multipart/form-data"> {% csrf_token %}
         <div class="col-md-11">
           <label for=""><h3>Inserir novas imagens:</h3></label>
-          <input class="form-control" type="file" name="imagens" multiple />
+          <input class="form-control" type="file" name="imagens" multiple required />
         </div>
         <div class="col-md-1">
           <label for=""><h3></h3></label>
