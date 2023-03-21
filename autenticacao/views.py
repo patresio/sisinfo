@@ -20,3 +20,11 @@ def cadastroUsuario(request):
         'form': form,
     }
     return render(request, 'cadastro.html', context)
+
+
+def usuarios(request):
+    users = User.objects.all()
+    context = {
+        'users': users,
+    }
+    return render(request, 'usuarios.html', context)
