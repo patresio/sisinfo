@@ -3,9 +3,9 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('cadastro/', views.cadastro, name="cadastro"),
-    path('logar/', views.logar, name="logar"),
-    path('sair/', views.sair, name="sair"),
+    path('cadastro_usuario/', views.cadastroUsuario, name="cadastro_usuario"),
+    # path('logar/', views.logar, name="logar"),
+    # path('sair/', views.sair, name="sair"),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name="password_reset.html"), name="password_reset"),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(
