@@ -1,6 +1,7 @@
 /* --------------------
 # START CONFIGURATION #
 ---------------------*/
+
 html, body {
     height: 100%;
     margin: 0 auto;
@@ -20,26 +21,10 @@ html, body {
 #footer {
     margin: 0 auto;
     height: 100%;
+    padding: 0;
 }
 
 #footer,
 .push {
     height: 3.125rem;
 }
-
-/* ----------------------
-# CONFIGURATION IMAGENS #
------------------------*/
-.gallery{
-    padding: 2rem 0;
-}
-
-.gallery img{
-    max-width:100%;
-    cursor: pointer;
-}
-
-#gallery-modal .modal-img{
-    width: 100%;
-}
-

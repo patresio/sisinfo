@@ -1,15 +1,18 @@
 {% extends 'base.html' %}{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'equipamentos/css/equipamentos.css' %}">
+{% endblock head %}
 {% block content %}
 <div class="container">
     <div class="row" style="padding-bottom:0.625rem;">
         <div class="col">
             <span><h3>Equipamento de identificação: {{equipamento.indentificador}}</h3></span>
         </div>
-        <div class="col-3 d-flex">
-            <div class="col d-flex">
-              <a href="{% url 'equipamentos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
-            </div>
-            <div class="col d-flex">
+        <div class="col-5 d-flex justify-content-between">
+            <div></div>
+            <div>
+              <a href="{% url 'equipamentos' %}" class="btn btn-secondary btn-gradient"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+              <a href="{% url 'up_equipamento' equipamento.id %}" class="btn btn-primary" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
               <a href="{% url 'del_equipamento' equipamento.id %}" class="btn btn-danger" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
             </div>
         </div>
@@ -93,14 +96,14 @@
       </form>
     </div>
     <div class="row">
-        <section class="gallery min-vh-100">
+        <section class="gallery">
             <div class="container-lg">
                 <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3">
                     {% for imagem in imagens %}
                     <div class="col">
                         <img src="/media/{{imagem.imagem}}" alt="gallery" class="gallery-item">
                         <div class="d-flex justify-content-center" style="padding-top: 0.625rem;" >
-                          <a href="{% url 'del_imagem' imagem.id equipamento.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
+                          <a href="{% url 'del_imagem' imagem.id equipamento.id %}" class="btn btn-danger" role="button"><i class="bi bi-trash-fill"></i> Remover</a>
                         </div>
                     </div>
                     {% empty %}

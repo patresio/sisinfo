@@ -10,7 +10,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 
 # Create your views here.
-
+from .forms import EquipamentoForm
 from .models import Equipamento, Imagem
 from setores.models import Setor
 
@@ -56,12 +56,14 @@ def delEquipamento(request, id):
         imagem.delete()
     # Deleta o equipamento
     equipamento.delete()
-    
+
     messages.add_message(request, constants.ERROR,
                          'Equipamento deletado com sucesso!')
     return redirect(reverse('equipamentos'))
 
 # Extrair Forms do Equipamento
+
+
 def extrair_forms_equipamento(request):
     codigo_sharepoint = request.POST.get('codigo_sharepoint')
     setor = request.POST.get('setor')
@@ -95,14 +97,13 @@ def extrair_forms_equipamento(request):
     )
 
     equipamento.save()
-    
+
     if imagens is not None:
         convert_imagem(imagens, equipamento.id)
 
     messages.add_message(request, messages.SUCCESS,
                          'Equipamento Inserido com Sucesso!')
     return redirect(reverse('add_equipamento'))
-
 
 
 # Converter Imagens
@@ -135,6 +136,8 @@ def convert_imagem(imagens, fk):
 # ----------------------------------------------------------------
 #                         IMAGEMS                                #
 # ----------------------------------------------------------------
+
+
 def insImagens(request, fk):
     if request.method == 'POST':
         imagens = request.FILES.getlist('imagens')
@@ -153,8 +156,45 @@ def delImagem(request, id, fk):
 
 
 def upEquipamento(request, id):
-    equipamento = Equipamento.objects.get(id=id)
+    equipamento = get_object_or_404(Equipamento, id=id)
+    form = EquipamentoForm(instance=equipamento)
     context = {
         'equipamento': equipamento,
+        'form': form,
     }
-    return render(request, 'update_equipamento.html', context)
+    if request.method == 'GET':
+        return render(request, 'update_equipamento.html', context)
+    elif request.method == 'POST':
+        form = EquipamentoForm(request.POST, instance=equipamento)
+        if form.is_valid():
+            return extrair_forms_atualizar(form, request)
+        messages.add_message(request, messages.ERROR,
+                             "Não foi possível Atualizar!")
+        return redirect(reverse('up_equipamento', kwargs={'id': id}))
+
+
+def extrair_forms_atualizar(form, request):
+    equipamento = form.save(commit=False)
+    equipamento.codigo_sharepoint = form.cleaned_data['codigo_sharepoint']
+    equipamento.patrimonio = form.cleaned_data['patrimonio']
+    equipamento.status = form.cleaned_data['status']
+    equipamento.setor = form.cleaned_data['setor']
+    equipamento.responsavel = form.cleaned_data['responsavel']
+    equipamento.numero_serie = form.cleaned_data['numero_serie']
+    equipamento.tipo = form.cleaned_data['tipo']
+    equipamento.serial_windows = form.cleaned_data['serial_windows']
+    equipamento.serial_office = form.cleaned_data['serial_office']
+    equipamento.ip = form.cleaned_data['ip']
+    equipamento.mac_address = form.cleaned_data['mac_address']
+    equipamento.configuracao = form.cleaned_data['configuracao']
+    equipamento.descricao = form.cleaned_data['descricao']
+    imagens = request.FILES.getlist('imagens')
+
+    if imagens is not None:
+        convert_imagem(imagens, equipamento.id)
+
+    equipamento.save()
+
+    messages.add_message(request, messages.SUCCESS,
+                         'Equipamento atualizado com sucesso!')
+    return redirect(reverse('up_equipamento', kwargs={'id': equipamento.id}))
