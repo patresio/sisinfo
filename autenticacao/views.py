@@ -15,18 +15,19 @@ from .forms import CreationFormUser
 
 
 def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
+        if user is None:
             messages.add_message(request, constants.ERROR,
                                  'Usuário ou senha inválidos!')
-
+        else:
+            login(request, user)
+            return redirect('index')
     context = {}
     return render(request, 'login.html', context)
 
@@ -34,8 +35,6 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('login')
-
-
 
 
 @login_required(login_url='login')
