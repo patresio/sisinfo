@@ -25,6 +25,7 @@
                     <th>Nome Completo</th>
                     <th>Username</th>
                     <th>Ultimo Login</th>
+                    <th style="text-align: center;">Grupo</th>
                     <th style="text-align: center;">Status</th>
                     <th></th>
                 </tr>
@@ -36,6 +37,13 @@
                     <td>{{user.get_full_name}}</td>
                     <td>{{user.username}}</td>
                     <td>{{user.last_login}}</td>
+                    <td style="text-align: center;">
+                    {% if user.is_staff == True %}
+                        Administrador
+                    {% else %}
+                        Técnico
+                    {% endif %}
+                    </td>
                     <!-- Conferindo usuario ativos -->
                     {% if user.is_active is True %}
                     <td style="text-align: center;">
@@ -52,7 +60,6 @@
                         <a href="{% url 'enable_usuario' user.id %}" class="btn btn-success btn-sm" role="button"><i class="bi bi-person-check"></i> Habilitar Usuário</a>
                     </td>
                     {% endif %}
-
                 </tr>
                 {% endfor %}
             </tbody>
