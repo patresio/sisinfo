@@ -3,18 +3,25 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.messages import constants
 
+
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 from .models import ProcessoLicitatorio, Material, CPUCompleto
 from .forms import ProcessoLicitatorioForm, MaterialForm, CPUCompletoForm
 
 # Processos
+
+
+@login_required(login_url='login')
 def processos(request):
     processos = ProcessoLicitatorio.objects.all()
     if request.method == 'POST':
         form = ProcessoLicitatorioForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.add_message(request, constants.SUCCESS, 'Inserido com sucesso!')
+            messages.add_message(request, constants.SUCCESS,
+                                 'Inserido com sucesso!')
         else:
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('processos_licitatorios'))
@@ -25,6 +32,8 @@ def processos(request):
     }
     return render(request, 'processos.html', context)
 
+
+@login_required(login_url='login')
 def update_processo(request, id):
     processo = get_object_or_404(ProcessoLicitatorio, id=id)
     form = ProcessoLicitatorioForm(instance=processo)
@@ -38,6 +47,7 @@ def update_processo(request, id):
     elif request.method == 'GET':
         return render(request, 'processos.html', {'form': form, 'processos': processos, 'processo': processo})
     return redirect('processos_licitatorios')
+
 
 def extrair_forms_atualizar_processos(form, request):
     # sourcery skip: remove-redundant-if
@@ -58,11 +68,11 @@ def extrair_forms_atualizar_processos(form, request):
             material.status = '1'
             material.save()
 
-
-
     messages.add_message(request, constants.SUCCESS, 'Atualizado com Sucesso!')
     return redirect(reverse('processos_licitatorios'))
 
+
+@login_required(login_url='login')
 def delete_processo(request, id):
     processo = ProcessoLicitatorio.objects.get(id=id)
     processo.delete()
@@ -71,17 +81,20 @@ def delete_processo(request, id):
 
 
 # Material de Informatica
-
+@login_required(login_url='login')
 def suprimentos(request):
     materiais = Material.objects.all()
     if request.method == 'POST':
         form = MaterialForm(request.POST)
-        processo = ProcessoLicitatorio.objects.get(id=form.data['proc_licitatorio'])
+        processo = ProcessoLicitatorio.objects.get(
+            id=form.data['proc_licitatorio'])
         if processo.status != '1':
-            messages.add_message(request, constants.WARNING, 'Processo Licitatório INATIVO')
+            messages.add_message(request, constants.WARNING,
+                                 'Processo Licitatório INATIVO')
         elif form.is_valid():
             form.save()
-            messages.add_message(request, constants.SUCCESS, 'Inserido com sucesso!')
+            messages.add_message(request, constants.SUCCESS,
+                                 'Inserido com sucesso!')
         else:
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('suprimentos'))
@@ -94,7 +107,8 @@ def suprimentos(request):
     return render(request, 'suprimentos.html', context=context)
 
 
-def update_suprimento(request,id):
+@login_required(login_url='login')
+def update_suprimento(request, id):
     material = get_object_or_404(Material, id=id)
     form = MaterialForm(instance=material)
     materiais = Material.objects.all()
@@ -103,9 +117,9 @@ def update_suprimento(request,id):
         if form.is_valid():
             return extrair_forms_atualizar_material(form, request)
         else:
-            return render(request, 'suprimentos.html', {'form':form, 'material': material, 'materiais': materiais})
+            return render(request, 'suprimentos.html', {'form': form, 'material': material, 'materiais': materiais})
     elif request.method == 'GET':
-        return render(request, 'suprimentos.html', {'form':form, 'material': material, 'materiais': materiais})
+        return render(request, 'suprimentos.html', {'form': form, 'material': material, 'materiais': materiais})
     return redirect('suprimentos')
 
 
@@ -120,13 +134,16 @@ def extrair_forms_atualizar_material(form, request):
     return redirect(reverse('suprimentos'))
 
 
+@login_required(login_url='login')
 def delete_suprimento(request, id):
     material = Material.objects.get(id=id)
     material.delete()
     messages.add_message(request, constants.ERROR, 'Excluido com sucesso!')
     return redirect(reverse('suprimentos'))
 
-#CPU Completo
+
+# CPU Completo
+@login_required(login_url='login')
 def cpucompleto(request):
     form = CPUCompletoForm()
     context = {

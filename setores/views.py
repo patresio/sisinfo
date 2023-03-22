@@ -3,18 +3,22 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.messages import constants
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 from .models import Setor
 from .forms import SetorForm
 
 
+@login_required(login_url='login')
 def setores(request):
     setores = Setor.objects.all()
     if request.method == 'POST':
         form = SetorForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.add_message(request, constants.SUCCESS, 'Inserido com sucesso!')
+            messages.add_message(request, constants.SUCCESS,
+                                 'Inserido com sucesso!')
         else:
             messages.add_message(request, constants.ERROR, 'Ocorreu um erro!')
         return redirect(reverse('setores'))
@@ -26,6 +30,7 @@ def setores(request):
     return render(request, 'setores.html', context)
 
 
+@login_required(login_url='login')
 def update_setor(request, id):
     setor = get_object_or_404(Setor, id=id)
     form = SetorForm(instance=setor)
@@ -37,10 +42,10 @@ def update_setor(request, id):
         if form.is_valid():
             return extrair_forms_atualizar(form, request)
         else:
-            return render(request, 'setores.html', {'form': form, 'setor':setor, 'setores':setores})
+            return render(request, 'setores.html', {'form': form, 'setor': setor, 'setores': setores})
     elif request.method == 'GET':
-        return render(request, 'setores.html', {'form': form, 'setor':setor, 'setores':setores})
-    
+        return render(request, 'setores.html', {'form': form, 'setor': setor, 'setores': setores})
+
     return redirect('setores')
 
 
@@ -58,6 +63,7 @@ def extrair_forms_atualizar(form, request):
     return redirect(reverse('setores'))
 
 
+@login_required(login_url='login')
 def delete_setor(request, id):
     setor = Setor.objects.get(id=id)
     setor.delete()

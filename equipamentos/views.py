@@ -9,12 +9,15 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 from .forms import EquipamentoForm
 from .models import Equipamento, Imagem
 from setores.models import Setor
 
 
+@login_required(login_url='login')
 def equipamentos(request):
     equipamentos = Equipamento.objects.all()
     context = {
@@ -23,6 +26,7 @@ def equipamentos(request):
     return render(request, 'equipamentos.html', context)
 
 
+@login_required(login_url='login')
 def viewEquipamento(request, id):
     equipamento = Equipamento.objects.get(id=id)
     imagens = Imagem.objects.filter(equipamento=Equipamento(id=id))
@@ -33,6 +37,7 @@ def viewEquipamento(request, id):
     return render(request, 'view_equipamento.html', context)
 
 
+@login_required(login_url='login')
 def addEquipamentos(request):
     if request.method == "GET":
         status_choices = Equipamento.status_choices
@@ -48,6 +53,7 @@ def addEquipamentos(request):
         return extrair_forms_equipamento(request)
 
 
+@login_required(login_url='login')
 def delEquipamento(request, id):
     equipamento = Equipamento.objects.get(id=id)
     imagens = Imagem.objects.filter(equipamento=id)
@@ -61,9 +67,8 @@ def delEquipamento(request, id):
                          'Equipamento deletado com sucesso!')
     return redirect(reverse('equipamentos'))
 
+
 # Extrair Forms do Equipamento
-
-
 def extrair_forms_equipamento(request):
     codigo_sharepoint = request.POST.get('codigo_sharepoint')
     setor = request.POST.get('setor')
@@ -138,6 +143,7 @@ def convert_imagem(imagens, fk):
 # ----------------------------------------------------------------
 
 
+@login_required(login_url='login')
 def insImagens(request, fk):
     if request.method == 'POST':
         imagens = request.FILES.getlist('imagens')
@@ -147,6 +153,7 @@ def insImagens(request, fk):
         return redirect(reverse('view_equipamento', kwargs={'id': fk}))
 
 
+@login_required(login_url='login')
 def delImagem(request, id, fk):
     imagem = Imagem.objects.get(id=id)
     imagem.delete()
@@ -155,6 +162,7 @@ def delImagem(request, id, fk):
     return redirect(reverse('view_equipamento', kwargs={'id': fk}))
 
 
+@login_required(login_url='login')
 def upEquipamento(request, id):
     equipamento = get_object_or_404(Equipamento, id=id)
     form = EquipamentoForm(instance=equipamento)

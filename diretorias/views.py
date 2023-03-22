@@ -3,11 +3,14 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.messages import constants
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 from .models import Diretoria
 from .forms import DiretoriaForm
 
 
+@login_required(login_url='login')
 def diretorias(request):
     diretorias = Diretoria.objects.all()
     if request.method == 'POST':
@@ -27,6 +30,7 @@ def diretorias(request):
     return render(request, 'diretorias.html', context)
 
 
+@login_required(login_url='login')
 def update_diretoria(request, id):
     diretoria = get_object_or_404(Diretoria, id=id)
     form = DiretoriaForm(instance=diretoria)
@@ -57,6 +61,7 @@ def extrair_forms_atualizar(form, request):
     return redirect(reverse('diretorias'))
 
 
+@login_required(login_url='login')
 def delete_diretoria(request, id):
     diretoria = Diretoria.objects.get(id=id)
     diretoria.delete()

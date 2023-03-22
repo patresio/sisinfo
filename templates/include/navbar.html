@@ -8,23 +8,26 @@
     </button>
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><span>Olá, 
+          {{request.user.get_full_name}}</span>         
+        </h5>
+        <span><a href="{% url 'logout' %}" class="btn btn-danger btn-sm" ><i class="bi bi-door-closed-fill"></i> Logout</a></span> 
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Dashboard</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'equipamentos' %}">Equipamentos</a>
+            <a class="nav-link" href="{% url 'equipamentos' %}"><i class="bi bi-pc"></i> Equipamentos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Laudos</a>
+            <a class="nav-link" href="#"><i class="bi bi-card-text"></i> Laudos</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Setores
+              <i class="bi bi-building"></i> Setores
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="{% url 'diretorias' %}">Diretorias</a></li>
@@ -33,7 +36,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Suprimentos
+              <i class="bi bi-pci-card"></i> Suprimentos
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="{% url 'processos_licitatorios' %}">Processos Licitatórios</a></li>
@@ -44,7 +47,13 @@
               <li><a class="dropdown-item" href="{% url 'cpucompleto' %}">CPU Completo</a></li>
             </ul>
           </li>
+          {% if request.user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'usuarios' %}"><i class="bi bi-people-fill"></i> Usuários</a>
+          </li>
+          {% endif %}
         </ul>
+        
       </div>
     </div>
   </div>

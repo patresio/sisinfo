@@ -5,6 +5,12 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.usuarios, name='usuarios'),
     path('cadastro_usuario/', views.cadastroUsuario, name="cadastro_usuario"),
+    # Habilitar usuarios
+    path('disable_usuario/<str:id>', views.disableUsuario, name="disable_usuario"),
+    path('enable_usuario/<str:id>', views.enableUsuario, name="enable_usuario"),
+
+    path('login/', views.loginPage, name="login"),
+    path('logout/', views.logoutPage, name="logout"),
     # path('logar/', views.logar, name="logar"),
     # path('sair/', views.sair, name="sair"),
     path('password_reset/', auth_views.PasswordResetView.as_view(

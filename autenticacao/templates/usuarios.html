@@ -1,9 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
-{% for user in users %}
-    {{user.firstname}} 
-    {{user.lastname}}
-    {{user.email}}
-    {{user.username}}
-{% endfor %}
+<div class="container">
+    <div class="row" style="padding-bottom: 0.625rem;">
+        <div class="col"> 
+            <span><h1><i class="bi bi-person-bounding-box"></i> Usuários</h1></span>
+        </div>
+        <div class="col-4 d-flex justify-content-between">
+            <div></div>
+            <div>
+                <a class="btn btn-success" href="{% url 'cadastro_usuario' %}"><i class="bi bi-people-fill"></i> Adicionar Usuário</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
+    </div>
+    <div class="row">
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nome Completo</th>
+                    <th>Username</th>
+                    <th>Ultimo Login</th>
+                    <th style="text-align: center;">Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.get_full_name}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.last_login}}</td>
+                    <!-- Conferindo usuario ativos -->
+                    {% if user.is_active is True %}
+                    <td style="text-align: center;">
+                        <label class="text-success"><i class="bi bi-check-circle-fill"></i></label>
+                    </td>
+                    <td style="width: 12rem;">
+                        <a href="{% url 'disable_usuario' user.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-person-dash"></i> Desabilitar Usuário</a>
+                    </td>
+                    {% elif user.is_active is False %}
+                    <td style="text-align: center;">
+                        <label class="text-danger"><i class="bi bi-x-circle-fill"></i></label>
+                    </td>
+                    <td style="width: 12rem;">
+                        <a href="{% url 'enable_usuario' user.id %}" class="btn btn-success btn-sm" role="button"><i class="bi bi-person-check"></i> Habilitar Usuário</a>
+                    </td>
+                    {% endif %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}
