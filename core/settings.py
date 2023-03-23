@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'suprimentos',
     'equipamentos',
     'autenticacao',
+    'laudos',
 ]
 
 MIDDLEWARE = [
