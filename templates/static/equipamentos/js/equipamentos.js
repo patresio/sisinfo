@@ -10,7 +10,7 @@ $("#tbEquipamentos").DataTable({
 
     // Disable columns with specific filter A to Z, Z to A
     "columnDefs": [{
-        "targets":[2, 5, 6, 7,],
+        "targets":[2, 5, 6, 7, 8, 9],
         "orderable": false,
     }]
 });
