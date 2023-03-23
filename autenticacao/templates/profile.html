@@ -1,0 +1,83 @@
+{% extends 'base.html' %}{% load static %}
+{% block head %}
+<style>
+    .profile-pic {
+      max-width: 200px;
+      max-height: 200px;
+      margin: 0 auto;
+      border-radius: 50%;
+    }
+  </style>
+{% endblock head %}
+{% block content %}
+<div class="container">
+    <div class="row" style="padding-top: 0.625rem;">
+        <div class="col-md-3">
+          <div class="card card-body">
+            <a class="btn btn-secondary" href="{% url 'index' %}">
+              &#8592; Voltar Dashboard</a
+            >
+            <hr />
+            <h3 style="text-align: center">Perfil do Usuário</h3>
+            <hr />
+            <img
+              class="profile-pic"
+                {% if not request.user.usuario.id and request.user.id != request.user.usuario.user %} 
+                    src="{% static 'img/profile-empty.png' %}"
+                {% elif request.user.id == request.user.usuario.user %}
+                    src="{{request.user.usuario.profile_pic.url}}"
+                {% endif %}
+            />
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="card card-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-md-6">
+                    {{userform.first_name.label}}
+                    {{userform.first_name}}
+                </div>
+                <div class="col-md-6">
+                    {{userform.last_name.label}}
+                    {{userform.last_name}}
+                </div>
+                <div class="col-md-6">
+                    {{userform.username.label}}
+                    {{userform.username}}
+                </div>
+                <div class="col-md-6">
+                    {{userform.email.label}}
+                    {{userform.email}}
+                </div>
+                <div class="col-md-6">
+                    {{userform.password1.label}}
+                    {{userform.password1}}
+                </div>
+                <div class="col-md-6">
+                    {{userform.password2.label}}
+                    {{userform.password2}}
+                </div>
+                <div class="col-12">
+                    <label for="">Foto de perfil:</label>
+                    <input class="form-control" type="file" name="perfil" readonly />
+                </div>
+                <div class="col-12">
+                    <input
+                      class="btn btn-success"
+                      type="submit"
+                      name="Update Information"
+                      value="&#9094; Submit"
+                    />
+                  </div>
+              </div>
+            </form>
+          </div>
+          {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
+          {% endfor %} {% endif %}
+        </div>
+      </div>
+</div>
+{% endblock content %}

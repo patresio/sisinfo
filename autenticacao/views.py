@@ -11,12 +11,15 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create a your view here
 
-from .forms import CreationFormUser
+from .models import Usuario
+
+from .forms import CreationFormUser, UsuarioForm
+
+from .decorators import unauthenticated_user, admin_only
 
 
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -38,6 +41,7 @@ def logoutPage(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def cadastroUsuario(request):
     form = CreationFormUser()
     if request.method == 'POST':
@@ -56,6 +60,7 @@ def cadastroUsuario(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def usuarios(request):
     users = User.objects.all()
     context = {
@@ -65,6 +70,7 @@ def usuarios(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def disableUsuario(request, id):
     user = User.objects.get(id=id)
     user.is_active = False
@@ -73,8 +79,60 @@ def disableUsuario(request, id):
 
 
 @login_required(login_url='login')
+@admin_only
 def enableUsuario(request, id):
     user = User.objects.get(id=id)
     user.is_active = True
     user.save()
     return redirect(reverse('usuarios'))
+
+
+@login_required(login_url='login')
+def perfilUsuario(request, id):
+    user = request.user
+    if request.method == 'GET':
+        userform = CreationFormUser(instance=user)
+        usuarioform = Usuario()
+        context = {
+            'userform': userform,
+            'usuarioform': usuarioform,
+        }
+        return render(request, 'profile.html', context)
+    elif request.method == 'POST':
+        userform = CreationFormUser(request.POST, instance=user)
+        if userform.is_valid():
+            return extrair_forms_usuarios(userform, id, request)
+
+
+def extrair_forms_usuarios(form, id, request):
+    # Gambiarra para manter administrador
+    old_user = User.objects.get(id=id)
+    print(old_user.is_staff)
+    usuario_f = form.save(commit=False)
+    usuario_f.first_name = form.cleaned_data['first_name']
+    usuario_f.last_name = form.cleaned_data['last_name']
+    usuario_f.username = form.cleaned_data['username']
+    usuario_f.email = form.cleaned_data['email']
+    usuario_f.password1 = form.cleaned_data['password1']
+    usuario_f.password2 = form.cleaned_data['password2']
+
+    usuario_f.save()
+    print('salvou o formulario primeiro')
+
+    alt_user = User.objects.get(id=id)
+    print('Esse é o antigo ainda:', old_user.is_staff)
+    print('Esse é o novo:', alt_user.is_staff)
+
+    if old_user.is_staff is True and alt_user.is_staff is False:
+        alt_user.is_staff = True
+        print('Esse era adm:', alt_user.is_staff)
+    elif old_user.is_staff is False and alt_user.is_staff is False:
+        alt_user.is_staff = False
+        print('Esse nao era adm:', alt_user.is_staff)
+
+    alt_user.save()
+    print('Salvou o ultimo form')
+
+    messages.add_message(request, constants.SUCCESS,
+                         'Usuario alterado com sucesso')
+    return redirect(reverse('perfil_usuario', kwargs={'id': id}))

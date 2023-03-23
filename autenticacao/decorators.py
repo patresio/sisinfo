@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.messages import constants
 
 
 def unauthenticated_user(view_func):
@@ -13,14 +15,12 @@ def unauthenticated_user(view_func):
 
 def admin_only(view_func):
     def wrapper_function(request, *args, **kwargs):
-        group = None
-        if request.user.groups.exists():
-            group = request.user.groups.all()[0].name
+        if request.user.is_staff != True:
+            messages.add_message(request, constants.ERROR,
+                                 'Você não tem autorização de administrador.')
+            return redirect('index')
 
-        if group != 'admin':
-            return redirect('user-page')
-
-        if group == 'admin':
+        if request.user.is_staff == True:
             return view_func(request, *args, **kwargs)
 
     return wrapper_function

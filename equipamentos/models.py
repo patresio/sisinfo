@@ -52,7 +52,7 @@ class Equipamento(models.Model):
 
 
 class Imagem(models.Model):
-    imagem = models.ImageField(upload_to='images')
+    imagem = models.ImageField(upload_to='images/equipamentos')
     equipamento = models.ForeignKey(
         Equipamento, on_delete=models.CASCADE, null=True, blank=True)
 

@@ -10,10 +10,12 @@ from django.contrib.auth.decorators import login_required
 from .models import ProcessoLicitatorio, Material, CPUCompleto
 from .forms import ProcessoLicitatorioForm, MaterialForm, CPUCompletoForm
 
+from autenticacao.decorators import admin_only
 # Processos
 
 
 @login_required(login_url='login')
+@admin_only
 def processos(request):
     processos = ProcessoLicitatorio.objects.all()
     if request.method == 'POST':
@@ -34,6 +36,7 @@ def processos(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def update_processo(request, id):
     processo = get_object_or_404(ProcessoLicitatorio, id=id)
     form = ProcessoLicitatorioForm(instance=processo)
@@ -73,6 +76,7 @@ def extrair_forms_atualizar_processos(form, request):
 
 
 @login_required(login_url='login')
+@admin_only
 def delete_processo(request, id):
     processo = ProcessoLicitatorio.objects.get(id=id)
     processo.delete()

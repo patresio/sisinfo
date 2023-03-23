@@ -2,6 +2,11 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center p-3" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
+    </div>
+    <div class="row">
         <div class="col-3">
             <div class="card text-bg-success mb-3" style="max-width: 18rem;">
                 <div class="card-header">Equipamentos Cadastrados</div>

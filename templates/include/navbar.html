@@ -17,7 +17,10 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'index' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a class="nav-link" aria-current="page" href="{% url 'index' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'perfil_usuario' request.user.id %}"><i class="bi bi-person-circle"></i> Perfil Usuário</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'equipamentos' %}"><i class="bi bi-pc"></i> Equipamentos</a>
@@ -39,7 +42,9 @@
               <i class="bi bi-pci-card"></i> Suprimentos
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
+              {% if request.user.is_staff == True %}
               <li><a class="dropdown-item" href="{% url 'processos_licitatorios' %}">Processos Licitatórios</a></li>
+              {% endif %}
               <li><a class="dropdown-item" href="{% url 'suprimentos' %}">Materiais de Informática</a></li>
               <li>
                 <hr class="dropdown-divider">

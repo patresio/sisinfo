@@ -8,11 +8,12 @@ urlpatterns = [
     # Habilitar usuarios
     path('disable_usuario/<str:id>', views.disableUsuario, name="disable_usuario"),
     path('enable_usuario/<str:id>', views.enableUsuario, name="enable_usuario"),
-
+    # Login // Logout
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutPage, name="logout"),
-    # path('logar/', views.logar, name="logar"),
-    # path('sair/', views.sair, name="sair"),
+    # Perfil do Usuario
+    path('perfil_usuario/<str:id>', views.perfilUsuario, name="perfil_usuario"),
+    # Redefinir Senha
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name="password_reset.html"), name="password_reset"),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(
