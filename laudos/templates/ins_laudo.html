@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <span><h3>Criação de laudo por: {{request.user.get_full_name}}</h3></span>
+        </div>
+        <div class="col-2 d-flex flex-row-reverse">
+            <a href="{% url 'laudos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+        </div>
+    </div>
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
+    </div>
+    <div class="row">
+        <form action="" method="post" class="row g-3">
+            <div class="col-md-6">
+                <div class="row p-3">
+                    {{form.setor.label}}
+                    {{form.setor}}
+                </div>
+                <div class="row p-3">
+                    {{form.funcionario.label}}
+                    {{form.funcionario}}
+                </div>
+                <div class="row p-3">
+                    {{form.status.label}}
+                    {{form.status}}
+                </div>
+
+            </div>
+            <div class="col-md-6 p-2">
+                {{form.justificativa.label}}
+                {{form.justificativa}}
+            </div>
+            <div class="col-12">
+                <h3>Materiais:</h3>
+            </div>
+            {{form_material.management_form}}
+            {% for fm in form_material %}
+            <div class="row p-2">
+                <div class="col-md-2">
+                    {{fm.quantidade.label}}
+                    {{fm.quantidade}}
+                </div>
+                <div class="col-md-6">
+                    Item a selecionar
+                    {{fm.item}}
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-12">
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Cadastrar Laudo</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

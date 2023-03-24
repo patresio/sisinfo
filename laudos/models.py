@@ -1,5 +1,7 @@
 from django.db import models
 
+from secrets import token_urlsafe
+
 from django.contrib.auth.models import User
 
 from setores.models import Setor
@@ -21,7 +23,22 @@ class Laudo(models.Model):
     justificativa = models.TextField(blank=True, null=True)
     status = models.CharField(
         max_length=2, choices=CHOICES_STATUS, default='01', blank=True, null=True)
-    suprimentos = models.ManyToManyField(Material)
     profissional = models.ForeignKey(
         User, on_delete=models.DO_NOTHING, null=True, blank=True)
     data_criacao = models.DateTimeField(auto_now_add=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.identificacao:
+            self.identificacao = token_urlsafe(16)
+        super(Laudo, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.identificacao
+
+
+class LaudoMaterial(models.Model):
+    numero_laudo = models.ForeignKey(
+        Laudo, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='materiais')
+    quantidade = models.IntegerField(null=True, blank=True, default=0)
+    item = models.ForeignKey(
+        Material, on_delete=models.DO_NOTHING, null=True, blank=True)
