@@ -17,7 +17,7 @@ class Laudo(models.Model):
         ('03', 'Finalizado')
     )
     identificacao = models.CharField(max_length=24, null=True, blank=True)
-    setor = models.OneToOneField(
+    setor = models.ForeignKey(
         Setor, blank=True, null=True, on_delete=models.SET_NULL)
     funcionario = models.CharField(max_length=200, null=True, blank=True)
     justificativa = models.TextField(blank=True, null=True)

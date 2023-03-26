@@ -15,7 +15,7 @@
         {% endfor %} {% endif %}
     </div>
     <div class="row">
-        <form action="" method="post" class="row g-3">
+        <form action="" method="post" class="row g-3">{% csrf_token %}
             <div class="col-md-6">
                 <div class="row p-3">
                     {{form.setor.label}}
@@ -35,6 +35,7 @@
                 {{form.justificativa.label}}
                 {{form.justificativa}}
             </div>
+            <input type="hidden" id="usuario" name="usuario" value="{{request.user.id}}">
             <div class="col-12">
                 <h3>Materiais:</h3>
             </div>

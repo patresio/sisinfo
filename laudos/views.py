@@ -2,6 +2,8 @@ from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
+from django.contrib.auth.models import User
+
 from django.contrib import messages
 from django.contrib.messages import constants
 
@@ -37,7 +39,9 @@ def insLaudo(request):
             Laudo, LaudoMaterial, form=LaudoMaterialForm)
         form_material = form_material_factory(request.POST)
         if form.is_valid() and form_material.is_valid():
-            laudo = form.save()
+            laudo = form.save(commit=False)
+            laudo.profissional = request.user
+            laudo.save()
             form_material.instance = laudo
             form_material.save()
             messages.add_message(request, constants.SUCCESS,

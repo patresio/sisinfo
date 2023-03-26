@@ -107,7 +107,6 @@ def perfilUsuario(request, id):
 def extrair_forms_usuarios(form, id, request):
     # Gambiarra para manter administrador
     old_user = User.objects.get(id=id)
-    print(old_user.is_staff)
     usuario_f = form.save(commit=False)
     usuario_f.first_name = form.cleaned_data['first_name']
     usuario_f.last_name = form.cleaned_data['last_name']
@@ -117,21 +116,15 @@ def extrair_forms_usuarios(form, id, request):
     usuario_f.password2 = form.cleaned_data['password2']
 
     usuario_f.save()
-    print('salvou o formulario primeiro')
 
     alt_user = User.objects.get(id=id)
-    print('Esse é o antigo ainda:', old_user.is_staff)
-    print('Esse é o novo:', alt_user.is_staff)
 
     if old_user.is_staff is True and alt_user.is_staff is False:
         alt_user.is_staff = True
-        print('Esse era adm:', alt_user.is_staff)
     elif old_user.is_staff is False and alt_user.is_staff is False:
         alt_user.is_staff = False
-        print('Esse nao era adm:', alt_user.is_staff)
 
     alt_user.save()
-    print('Salvou o ultimo form')
 
     messages.add_message(request, constants.SUCCESS,
                          'Usuario alterado com sucesso')

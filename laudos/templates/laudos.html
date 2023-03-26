@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <h1>
-        Laudos
-    </h1>
+    <div class="row" style="padding-bottom: 0.625rem;">
+        <div class="col"> 
+            <span><h1>Laudos</h1></span>
+        </div>
+        <div class="col-3 d-flex justify-content-between">
+            <div></div>
+            <div>
+                <a class="btn btn-success" href="{% url 'ins_laudo' %}"><i class="bi bi-plus-square-fill"></i> Fazer um laudo</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+            <div class="alert {{message.tags}} d-flex align-items-center" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
+        {% endfor %} {% endif %}
+    </div>
 </div>
 {% endblock content %}
