@@ -42,3 +42,5 @@ class LaudoMaterial(models.Model):
     quantidade = models.IntegerField(null=True, blank=True, default=0)
     item = models.ForeignKey(
         Material, on_delete=models.DO_NOTHING, null=True, blank=True)
+ 
+ 

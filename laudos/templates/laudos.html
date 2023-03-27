@@ -35,24 +35,111 @@
             </thead>
             <tbody>
                 {% for laudo in laudos %}
+                {% if laudo.get_status_display != 'Finalizado' %}
                 <tr>
                     <td>{{laudo.id}}</td>
                     <td>{{laudo.setor}}</td>
                     <td>{{laudo.funcionario}}</td>
-                    <td>{{laudo.profissional}}</td>
+                    <td>{{laudo.profissional.get_full_name}}</td>
                     <td>{{laudo.get_status_display}}</td>
                     <td>{{laudo.data_criacao}}</td>
-                    <td style="text-align: center; width: 18rem;">
-                        <a href="" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
-                        <a href="" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                    <td style="text-align: center; width: 15rem;">
+                        <a class="btn btn-warning btn-sm" data-bs-toggle="modal" href="#exibirLaudoModal{{laudo.id}}" role="button"><i class="bi bi-eye"></i> Exibir</a>
                         <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
                     </td>
                 </tr>
+                {% elif request.user.is_staff and laudo.get_status_display == 'Finalizado' %}
+                    <tr>
+                        <td>{{laudo.id}}</td>
+                        <td>{{laudo.setor}}</td>
+                        <td>{{laudo.funcionario}}</td>
+                        <td>{{laudo.profissional.get_full_name}}</td>
+                        <td>{{laudo.get_status_display}}</td>
+                        <td>{{laudo.data_criacao}}</td>
+                        <td style="text-align: center; width: 15rem;">
+                            <a class="btn btn-warning btn-sm" data-bs-toggle="modal" href="#exibirLaudoModal{{laudo.id}}" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                            <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
+                        </td>
+                    </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
+
+<!-- Modal -->
+{% for laudo in laudos %}
+<div class="modal modal-lg fade" id="exibirLaudoModal{{laudo.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Laudo nº: {{laudo.id}} || Identificação: {{laudo.identificacao}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-bordered">
+            <tr>
+                <th width="15%">Setor:</th>
+                <td>{{laudo.setor}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Funcionário:</th>
+                <td>{{laudo.funcionario}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Justificativa:</th>
+                <td>{{laudo.justificativa}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Status:</th>
+                <td>{{laudo.get_status_display}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Criado em:</th>
+                <td>{{laudo.data_criacao}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Profissional:</th>
+                <td>{{laudo.profissional.get_full_name}}</td>
+            </tr>
+            <tr>
+                <th width="15%">Equipamentos:</th>
+                <td>
+                    <table class="table table-dark table-striped table-bordered">
+                        <tr style="text-align: center;">
+                            <th width="15%">
+                                Quantidade:
+                            </th>
+                            <th>
+                                Item
+                            </th>
+                        </tr>
+                        {% for material in laudo.materiais.all %}
+                        <tr>
+                            <td style="text-align: center;">
+                                {{material.quantidade}}
+                            </td>
+                            <td>
+                                {{material.item}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="btn btn-danger" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
 {% endblock content %}
 {% block script %}
 <script src="{% static 'laudos/js/laudos.js' %}"></script>

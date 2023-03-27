@@ -7,7 +7,6 @@ class LaudoForm(forms.ModelForm):
     class Meta:
         model = Laudo
         fields = '__all__'
-        exclude = ['identificacao', 'profissional', 'data_criacao']
 
     def __init__(self, *args, **kwargs):
         super(LaudoForm, self).__init__(*args, **kwargs)

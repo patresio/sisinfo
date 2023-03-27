@@ -1,6 +1,7 @@
 from django.forms import inlineformset_factory
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.contrib.auth.models import User
 
@@ -57,3 +58,4 @@ def insLaudo(request):
             }
             messages.add_message(request, constants.ERROR,
                                  'Aconteceu um erro!')
+            return redirect(reverse('ins_laudo'))
