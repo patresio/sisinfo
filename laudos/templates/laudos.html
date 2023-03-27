@@ -1,4 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'laudos/css/laudos.css' %}">
+{% endblock head %}
 {% block content %}
 <div class="container">
     <div class="row" style="padding-bottom: 0.625rem;">
@@ -17,5 +20,40 @@
             <div class="alert {{message.tags}} d-flex align-items-center" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
         {% endfor %} {% endif %}
     </div>
+    <div class="row">
+        <table class="table table-striped bordered" id="tbLaudos">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Setor</th>
+                    <th>Funcionário</th>
+                    <th>Profissional</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for laudo in laudos %}
+                <tr>
+                    <td>{{laudo.id}}</td>
+                    <td>{{laudo.setor}}</td>
+                    <td>{{laudo.funcionario}}</td>
+                    <td>{{laudo.profissional}}</td>
+                    <td>{{laudo.get_status_display}}</td>
+                    <td>{{laudo.data_criacao}}</td>
+                    <td style="text-align: center; width: 18rem;">
+                        <a href="" class="btn btn-warning btn-sm" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                        <a href="" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
+                        <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock content %}
+{% block script %}
+<script src="{% static 'laudos/js/laudos.js' %}"></script>
+{% endblock script %}

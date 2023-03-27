@@ -17,7 +17,10 @@ from .forms import LaudoForm, LaudoMaterialForm
 
 @login_required(login_url='login')
 def pageLaudos(request):
-    context = {}
+    laudos = Laudo.objects.all()
+    context = {
+        'laudos': laudos,
+    }
     return render(request, 'laudos.html', context)
 
 
