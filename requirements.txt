@@ -7,3 +7,4 @@ python-decouple==3.8
 psycopg2-binary==2.9.5
 django-seed==0.3.1
 autopep8==2.0.2
+django-widget-tweaks==1.4.12

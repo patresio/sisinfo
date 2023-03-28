@@ -43,8 +43,9 @@
                     <td>{{laudo.profissional.get_full_name}}</td>
                     <td>{{laudo.get_status_display}}</td>
                     <td>{{laudo.data_criacao}}</td>
-                    <td style="text-align: center; width: 15rem;">
+                    <td style="text-align: center; width: 19rem;">
                         <a class="btn btn-warning btn-sm" data-bs-toggle="modal" href="#exibirLaudoModal{{laudo.id}}" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                        <a href="{% url 'up_laudo' laudo.id %}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
                         <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
                     </td>
                 </tr>
@@ -56,8 +57,9 @@
                         <td>{{laudo.profissional.get_full_name}}</td>
                         <td>{{laudo.get_status_display}}</td>
                         <td>{{laudo.data_criacao}}</td>
-                        <td style="text-align: center; width: 15rem;">
+                        <td style="text-align: center; width: 19rem;">
                             <a class="btn btn-warning btn-sm" data-bs-toggle="modal" href="#exibirLaudoModal{{laudo.id}}" role="button"><i class="bi bi-eye"></i> Exibir</a>
+                            <a href="{% url 'up_laudo' laudo.id %}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
                             <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
                         </td>
                     </tr>
@@ -106,7 +108,7 @@
             </tr>
             <tr>
                 <th width="15%">Equipamentos:</th>
-                <td>
+                <td>backend
                     <table class="table table-dark table-striped table-bordered">
                         <tr style="text-align: center;">
                             <th width="15%">

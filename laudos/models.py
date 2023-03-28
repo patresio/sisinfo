@@ -5,7 +5,7 @@ from secrets import token_urlsafe
 from django.contrib.auth.models import User
 
 from setores.models import Setor
-from suprimentos.models import Material, CPUCompleto
+from suprimentos.models import Material
 
 # Create your models here.
 
@@ -39,8 +39,6 @@ class Laudo(models.Model):
 class LaudoMaterial(models.Model):
     numero_laudo = models.ForeignKey(
         Laudo, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='materiais')
-    quantidade = models.IntegerField(null=True, blank=True, default=0)
     item = models.ForeignKey(
         Material, on_delete=models.DO_NOTHING, null=True, blank=True)
- 
- 
+    quantidade = models.IntegerField(null=True, blank=True, default=0)

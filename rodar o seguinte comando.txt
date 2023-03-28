@@ -1,0 +1,14 @@
+python manage.py shell
+
+from diretorias.models import TipoDiretoria
+
+tipo1 = TipoDiretoria(nome="Diretoria")
+tipo2 = TipoDiretoria(nome="Secretária")
+tipo3 = TipoDiretoria(nome="Departamento")
+tipo4 = TipoDiretoria(nome="Gabinete")
+
+tipo_list = [tipo1, tipo2, tipo3, tipo4]
+
+
+for tipo in tipo_list:
+    tipo.save()

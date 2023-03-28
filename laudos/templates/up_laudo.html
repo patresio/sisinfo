@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <span><h3>Criação de laudo</h3></span>
+            <span><h3>Atualização do laudo</h3></span>
         </div>
         <div class="col-2 d-flex flex-row-reverse">
             <a href="{% url 'laudos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
@@ -35,12 +35,11 @@
                 {{form.justificativa.label}}
                 {{form.justificativa}}
             </div>
-            <input type="hidden" id="usuario" name="usuario" value="{{request.user.id}}">
             <div class="col-12">
                 <h3>Materiais:</h3>
             </div>
             {{form_material.management_form}}
-            
+
             <div class="row p-2" id="inline_form">
                 <table class="table table-striped align-middle">
                     <thead class="table-dark">
@@ -54,16 +53,24 @@
                             <th>
 
                             </th>
+                            <th>
+
+                            </th>
                         </tr>
                     </thead>
                     <tbody> 
                         {% for fm in form_material %}
+                        {{fm.id}}
+                        {{fm.numero_lado}}
                         <tr>
-                            <td width="15%">
+                            <td width="10%">
                                 {{fm.quantidade}}
                             </td>
-                            <td width="70%">
+                            <td width="60%">
                                 {{fm.item}}
+                            </td>
+                            <td width="15%">
+                                <a href="{% url 'delete_item' fm.id.value  %}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Deletar item</a>
                             </td>
                             <td>
 
@@ -74,7 +81,7 @@
                 </table>
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Cadastrar Laudo</button>
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Atualizar Laudo</button>
             </div>
         </form>
     </div>

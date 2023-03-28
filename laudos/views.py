@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 from .models import Laudo, LaudoMaterial
-from .forms import LaudoForm, LaudoMaterialForm
+from .forms import LaudoForm, LaudoMaterialForm, LaudoMaterialFormset
 
 
 @login_required(login_url='login')
@@ -59,3 +59,46 @@ def insLaudo(request):
             messages.add_message(request, constants.ERROR,
                                  'Aconteceu um erro!')
             return redirect(reverse('ins_laudo'))
+
+
+@login_required(login_url='login')
+def upLaudo(request, id):
+    laudo_instance = get_object_or_404(Laudo, id=id)
+    if request.user.id == laudo_instance.profissional.id:
+        template_name = 'up_laudo.html'
+        form = LaudoForm(request.POST or None,
+                         instance=laudo_instance, prefix='main')
+        form_material = LaudoMaterialFormset(
+            request.POST or None, instance=laudo_instance, prefix='items')
+
+        if (
+            request.method == 'POST'
+            and form.is_valid()
+            and form_material.is_valid()
+        ):
+            form.save()
+            form_material.save()
+            messages.add_message(request, constants.SUCCESS,
+                                 'Laudo alterado com sucesso.')
+            return redirect(reverse('up_laudo', kwargs={'id': id}))
+
+        context = {
+            'form': form,
+            'form_material': form_material,
+        }
+        return render(request, template_name, context)
+    else:
+        messages.add_message(request, constants.WARNING,
+                             'Você não tem permissão para alterar esse Laudo!')
+        return redirect(reverse('laudos'))
+
+
+@login_required(login_url='login')
+def delItem(request, id):
+    item = LaudoMaterial.objects.get(id=id)
+    laudo = item.numero_laudo
+    print(item.item.nome)
+    item.delete()
+    messages.add_message(request, constants.WARNING,
+                         f'O item: {item.item.nome}. Foi removido com sucesso.')
+    return redirect(reverse('up_laudo', kwargs={'id': laudo.id}))
