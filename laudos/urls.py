@@ -9,4 +9,7 @@ urlpatterns = [
 
     # Deletar itens do laudo
     path('delete_item/<str:id>', views.delItem, name='delete_item'),
+
+    # Gerar PDF
+    path('gerar_pdf/<str:id>', views.gerar_pdf, name='gerar_pdf'),
 ]

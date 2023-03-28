@@ -46,7 +46,7 @@
                     <td style="text-align: center; width: 19rem;">
                         <a class="btn btn-warning btn-sm" data-bs-toggle="modal" href="#exibirLaudoModal{{laudo.id}}" role="button"><i class="bi bi-eye"></i> Exibir</a>
                         <a href="{% url 'up_laudo' laudo.id %}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-cloud-arrow-up-fill"></i> Atualizar</a>
-                        <a href="" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
+                        <a href="{% url 'gerar_pdf' laudo.id %}" class="btn btn-danger btn-sm" role="button"><i class="bi bi-file-earmark-pdf-fill"></i> Gerar PDF</a>
                     </td>
                 </tr>
                 {% elif request.user.is_staff and laudo.get_status_display == 'Finalizado' %}

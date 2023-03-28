@@ -3,12 +3,20 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
+from django.template.loader import get_template
+
 from django.contrib.auth.models import User
 
 from django.contrib import messages
 from django.contrib.messages import constants
 
 from django.contrib.auth.decorators import login_required
+
+# PDF Create
+
+from io import BytesIO
+
+from xhtml2pdf import pisa
 
 # Create your views here.
 
@@ -102,3 +110,26 @@ def delItem(request, id):
     messages.add_message(request, constants.WARNING,
                          f'O item: {item.item.nome}. Foi removido com sucesso.')
     return redirect(reverse('up_laudo', kwargs={'id': laudo.id}))
+
+
+def render_to_pdf(template_src, context_dict=None):
+    if context_dict is None:
+        context_dict = {}
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    return (
+        None
+        if pdf.err
+        else HttpResponse(result.getvalue(), content_type='application/pdf')
+    )
+
+
+def gerar_pdf(request, id):
+    laudo = Laudo.objects.get(id=id)
+    context = {
+        'laudo': laudo,
+    }
+    pdf = render_to_pdf('pdf_template.html', laudo)
+    return HttpResponse(pdf, content_type='application/pdf')
