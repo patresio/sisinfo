@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
+    <div class="row" style="padding-top: 0.625rem;">
+        <h3>Olá, {{request.user.get_full_name}}</h3>
+    </div>
+    <hr>
     <div class="row">
         {% if messages %} {% for message in messages %}
             <div class="alert {{message.tags}} d-flex align-items-center p-3" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
         {% endfor %} {% endif %}
     </div>
-    
     <div class="row">
         <div class="col-3">
             <div class="card border mb-3 text-center" style="max-width: 18rem;">
-                <div class="card-header fs-3" style="background: indigo; color: white;">Laudos</div>
+                <div class="card-header fs-3" style="background: indigo; color: white;">Laudos Abertos</div>
                 <div class="card-body">
                     <div class="col">
                         <h1 class="card-title">{{laudos_abertos}}</h1>
@@ -20,26 +23,38 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card text-bg-warning mb-3 col" style="max-width: 18rem;">
-                <div class="card-header">Header</div>
+            <div class="card border mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header fs-3" style="background: purple; color: white;">Seus laudos</div>
                 <div class="card-body">
-                  <h5 class="card-title">Warning card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="col">
+                        <h1 class="card-title">{{total_laudos_user_abertos}}</h1>
+                        <p class="card-text fs-8">Total</p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-3">
-            <div class="card text-bg-info mb-3" style="max-width: 18rem;">
-                <div class="card-header">Header</div>
+            <div class="card border mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header fs-3" style="background: teal; color: white;">Equipamentos</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="col">
+                        <h1 class="card-title">{{total_equipamentos}}</h1>
+                        <p class="card-text fs-8">Total</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <h1>Dashboard</h1>
+        <div class="col-3">
+            <div class="card border mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header fs-3" style="background: orange; color: white;">Equip Ativos</div>
+                <div class="card-body">
+                    <div class="col">
+                        <h1 class="card-title">{{total_equipamentos_ativos}}</h1>
+                        <p class="card-text fs-8">Total</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from django.template.loader import get_template
 
@@ -112,24 +112,27 @@ def delItem(request, id):
     return redirect(reverse('up_laudo', kwargs={'id': laudo.id}))
 
 
-def render_to_pdf(template_src, context_dict=None):
-    if context_dict is None:
-        context_dict = {}
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-    return (
-        None
-        if pdf.err
-        else HttpResponse(result.getvalue(), content_type='application/pdf')
-    )
-
-
-def gerar_pdf(request, id):
+def pdfLaudo(request, id):
     laudo = Laudo.objects.get(id=id)
+    template_name = 'pdf_template.html'
     context = {
+        'id': laudo.id,
+        'identificacao': laudo.identificacao,
+        'setor': laudo.setor,
+        'funcionario': laudo.funcionario,
+        'justificativa': laudo.justificativa,
+        'data': laudo.data_criacao,
+        'profissional': laudo.profissional,
         'laudo': laudo,
     }
-    pdf = render_to_pdf('pdf_template.html', laudo)
-    return HttpResponse(pdf, content_type='application/pdf')
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="products_report.pdf"'
+    template = get_template(template_name)
+    html = template.render(context)
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse(f'We had some errors <pre>{html}</pre>')
+    return response

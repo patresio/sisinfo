@@ -38,8 +38,6 @@ class LaudoMaterialForm(forms.ModelForm):
 
         # Suprimentos ativos
         items_ativos = Material.objects.filter(status='1')
-        print(items_ativos)
-
         self.fields['item'].queryset = items_ativos
 
 

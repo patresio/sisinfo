@@ -11,5 +11,5 @@ urlpatterns = [
     path('delete_item/<str:id>', views.delItem, name='delete_item'),
 
     # Gerar PDF
-    path('gerar_pdf/<str:id>', views.gerar_pdf, name='gerar_pdf'),
+    path('gerar_pdf/<str:id>', views.pdfLaudo, name='gerar_pdf'),
 ]
