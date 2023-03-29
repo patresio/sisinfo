@@ -6,13 +6,16 @@
             <div class="alert {{message.tags}} d-flex align-items-center p-3" style="padding-top: 0.625rem;" role="alert">{{message}}</div>
         {% endfor %} {% endif %}
     </div>
+    
     <div class="row">
         <div class="col-3">
-            <div class="card border-danger mb-3" style="max-width: 18rem;">
-                <div class="card-header fs-3" style="background: red; color: white;">Laudos</div>
+            <div class="card border mb-3 text-center" style="max-width: 18rem;">
+                <div class="card-header fs-3" style="background: indigo; color: white;">Laudos</div>
                 <div class="card-body">
-                  <h5 class="card-title">Danger card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="col">
+                        <h1 class="card-title">{{laudos_abertos}}</h1>
+                        <p class="card-text fs-8">Abertos</p>
+                    </div>
                 </div>
             </div>
         </div>

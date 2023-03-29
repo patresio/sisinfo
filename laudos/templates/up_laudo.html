@@ -68,6 +68,7 @@
                             </td>
                             <td width="60%">
                                 {{fm.item}}
+                                {{fm.item.status}}
                             </td>
                             <td width="15%">
                                 <a href="{% url 'delete_item' fm.id.value  %}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Deletar item</a>

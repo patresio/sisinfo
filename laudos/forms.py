@@ -3,6 +3,8 @@ from django.forms import inlineformset_factory
 
 from .models import Laudo, LaudoMaterial
 
+from suprimentos.models import Material
+
 
 class LaudoForm(forms.ModelForm):
     class Meta:
@@ -33,6 +35,12 @@ class LaudoMaterialForm(forms.ModelForm):
 
         self.fields['id'].label = ''
         self.fields['id'].widget = forms.HiddenInput()
+
+        # Suprimentos ativos
+        items_ativos = Material.objects.filter(status='1')
+        print(items_ativos)
+
+        self.fields['item'].queryset = items_ativos
 
 
 LaudoMaterialFormset = inlineformset_factory(

@@ -13,8 +13,7 @@ from suprimentos.models import Material
 class Laudo(models.Model):
     CHOICES_STATUS = (
         ('01', 'Aberto'),
-        ('02', 'Em andamento'),
-        ('03', 'Finalizado')
+        ('02', 'Finalizado')
     )
     identificacao = models.CharField(max_length=24, null=True, blank=True)
     setor = models.ForeignKey(
