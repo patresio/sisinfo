@@ -47,7 +47,6 @@ def cadastroUsuario(request):
     if request.method == 'POST':
         form = CreationFormUser(request.POST)
         if form.is_valid():
-            print('formulario valido')
             user = form.save()
 
             messages.add_message(request, constants.SUCCESS,
