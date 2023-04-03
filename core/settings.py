@@ -85,7 +85,7 @@ DATABASES = {
     }
 }
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('POSTGRES_DB', 'sisinfo_db'),
@@ -94,7 +94,7 @@ DATABASES = {
         'HOST': config('DB_HOST', 'localhost'),
         'PORT': config('DB_PORT', 5431, cast=int),
     },
-}
+} """
 
 
 # Password validation
@@ -134,7 +134,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = os.path.join('staticfiles')
+STATIC_ROOT = os.path.join('staticfiles', 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
