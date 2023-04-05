@@ -7,7 +7,6 @@ from django.conf import settings
 
 # Create your models here.
 
-
 class Equipamento(models.Model):
     tipo_choices = (
         ('01', 'COMPUTADOR'),
