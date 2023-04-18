@@ -41,3 +41,10 @@ class LaudoMaterial(models.Model):
     item = models.ForeignKey(
         Material, on_delete=models.DO_NOTHING, null=True, blank=True)
     quantidade = models.IntegerField(null=True, blank=True, default=0)
+
+
+class Empenho(models.Model):
+    numero_laudo = models.ForeignKey(Laudo, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='empenhos')
+    numero_empenho = models.CharField(max_length=10, blank=True, null=True)
+    fornecedor = models.CharField(max_length=255, blank=True, null=True)
+    nota_fiscal = models.CharField(max_length=10, blank=True, null=True)

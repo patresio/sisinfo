@@ -20,8 +20,8 @@ from xhtml2pdf import pisa
 
 # Create your views here.
 
-from .models import Laudo, LaudoMaterial
-from .forms import LaudoForm, LaudoMaterialForm, LaudoMaterialFormset
+from .models import Laudo, LaudoMaterial, Empenho
+from .forms import LaudoForm, LaudoMaterialForm, LaudoMaterialFormset, EmpenhoFormset
 
 
 @login_required(login_url='login')
@@ -78,6 +78,10 @@ def upLaudo(request, id):
                          instance=laudo_instance, prefix='main')
         form_material = LaudoMaterialFormset(
             request.POST or None, instance=laudo_instance, prefix='items')
+        form_empenho = EmpenhoFormset(
+            request.POST or None, instance=laudo_instance, prefix='empenhos')
+
+        empenhos = Empenho.objects.filter(numero_laudo=id)
 
         if (
             request.method == 'POST'
@@ -93,6 +97,9 @@ def upLaudo(request, id):
         context = {
             'form': form,
             'form_material': form_material,
+            'form_empenho': form_empenho,
+            'laudo': laudo_instance,
+            'empenhos': empenhos,
         }
         return render(request, template_name, context)
     else:

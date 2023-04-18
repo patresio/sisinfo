@@ -1,12 +1,17 @@
 {% extends 'base.html' %}{% load static %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
+    <div class="row d-flex">
+        <div class="col p-1">
             <span><h3>Atualização do laudo</h3></span>
         </div>
-        <div class="col-2 d-flex flex-row-reverse">
-            <a href="{% url 'laudos' %}" class="btn btn-primary"><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+        <div class="col-4 d-flex justify-content-end">
+            <div class="p-1">
+                <a class="btn btn-warning" data-bs-toggle="modal" href="#exibirEmpenhoModal" role="button"><i class="bi bi-file-earmark-text"></i> Empenhos</a>
+            </div>
+            <div class="p-1">
+                <a href="{% url 'laudos' %}" class="btn btn-primary "><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -37,56 +42,150 @@
             </div>
             <div class="col-12">
                 <h3>Materiais:</h3>
-            </div>
-            {{form_material.management_form}}
+            
+                {{form_material.management_form}}
 
-            <div class="row p-2" id="inline_form">
-                <table class="table table-striped align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>
-                                Quantidade
-                            </th>
-                            <th>
-                                Item a selecionar
-                            </th>
-                            <th>
+                <div class="row p-2" id="inline_form">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>
+                                    Quantidade
+                                </th>
+                                <th>
+                                    Item a selecionar
+                                </th>
+                                <th>
 
-                            </th>
-                            <th>
+                                </th>
+                                <th>
 
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        {% for fm in form_material %}
-                        {{fm.id}}
-                        {{fm.numero_lado}}
-                        <tr>
-                            <td width="10%">
-                                {{fm.quantidade}}
-                            </td>
-                            <td width="60%">
-                                {{fm.item}}
-                                {{fm.item.status}}
-                            </td>
-                            <td width="15%">
-                                <a href="{% url 'delete_item' fm.id.value  %}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Deletar item</a>
-                            </td>
-                            <td>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {% for fm in form_material %}
+                            {{fm.id}}
+                            {{fm.numero_lado}}
+                            <tr>
+                                <td width="10%">
+                                    {{fm.quantidade}}
+                                </td>
+                                <td width="60%">
+                                    {{fm.item}}
+                                    {{fm.item.status}}
+                                </td>
+                                <td width="15%">
+                                    <a href="{% url 'delete_item' fm.id.value  %}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Deletar item</a>
+                                </td>
+                                <td>
 
-                            </td>
-                        </tr>            
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                                </td>
+                            </tr>            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- final formset materiais -->
             <div class="col-12">
                 <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Atualizar Laudo</button>
             </div>
         </form>
     </div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal modal-xl fade" id="exibirEmpenhoModal" tabindex="-1" aria-labelledby="exibirEmpenhoModal" aria-hidden="true">
+    <div class="modal-dialog">  
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exibirEmpenhoModal">Empenhos do Laudo nº: {{laudo.id}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <table class="table table-bordered table-striped">
+                <tr class="bg-info">
+                    <th width="20%">Numero Empenho</th>
+                    <th width="60%">Fornecedor</th>
+                    <th width="20%">Nota Fiscal</th>
+                </tr>
+                {% for empenho in empenhos %}
+                <tr>
+                    <td>{{empenho.numero_empenho}}</td>
+                    <td>{{empenho.fornecedor}}</td>
+                    <td>{{empenho.nota_fiscal}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="align-middle bg-secondary">Sem empenho cadastrado</td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+            <hr>
+            <h5>Cadastrar empenhos:</h5>
+            {{form_empenho.management_form}}
+            <form action="" method="post">
+            <div class="row p-2" id="inline_empenho">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th width="12%">
+                                Nº Empenho
+                            </th>
+                            <th>
+                                Fornecedor
+                            </th>
+                            <th>
+                                Nota Fiscal
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fme in form_empenho %}
+                        <tr>
+                            <td>
+                                {{fme.numero_empenho}}
+                            </td>
+                            <td>
+                                {{fme.fornecedor}}
+                            </td>
+                            <td>
+                                {{fme.nota_fiscal}}
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill"></i> Cadastrar Empenhos</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
 {% endblock content %}
 
 {% block script %}
@@ -96,6 +195,13 @@
     $(function() {
         $('#inline_form table tbody tr').formset({
             prefix: '{{ form_material.prefix }}',
+            addText: '&#10003; Adicionar novo item',
+            deleteText: '&#10005; Remover Linha',
+            addCssClass: 'btn btn-primary',
+            deleteCssClass : 'btn btn-warning',
+        });
+        $('#inline_empenho table tbody tr').formset({
+            prefix: '{{ form_empenho.prefix }}',
             addText: '&#10003; Adicionar novo item',
             deleteText: '&#10005; Remover Linha',
             addCssClass: 'btn btn-primary',
