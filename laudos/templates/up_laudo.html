@@ -7,7 +7,7 @@
         </div>
         <div class="col-4 d-flex justify-content-end">
             <div class="p-1">
-                <a class="btn btn-warning" data-bs-toggle="modal" href="#exibirEmpenhoModal" role="button"><i class="bi bi-file-earmark-text"></i> Empenhos</a>
+                <!--<a class="btn btn-warning" data-bs-toggle="modal" href="#exibirEmpenhoModal" role="button"><i class="bi bi-file-earmark-text"></i> Empenhos</a>-->
             </div>
             <div class="p-1">
                 <a href="{% url 'laudos' %}" class="btn btn-primary "><i class="bi bi-arrow-left-square-fill"></i> Voltar</a>
@@ -96,7 +96,7 @@
 
 
 
-<!-- Modal -->
+{% comment %} <!-- Modal Empenho -->
 <div class="modal modal-xl fade" id="exibirEmpenhoModal" tabindex="-1" aria-labelledby="exibirEmpenhoModal" aria-hidden="true">
     <div class="modal-dialog">  
       <div class="modal-content">
@@ -143,7 +143,7 @@
                                 Nota Fiscal
                             </th>
                             <th>
-
+                                
                             </th>
                         </tr>
                     </thead>
@@ -179,7 +179,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
 
 
 
